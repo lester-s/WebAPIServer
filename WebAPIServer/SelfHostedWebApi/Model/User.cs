@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SelfHostedWebApi
+﻿namespace SelfHostedWebApi.Model
 {
     public class User
     {
@@ -14,6 +8,7 @@ namespace SelfHostedWebApi
             Name = name;
             Age = age;
         }
+
         public int Id { get; set; }
         public string Name { get; set; }
         public int Age { get; set; }

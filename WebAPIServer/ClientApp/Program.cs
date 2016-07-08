@@ -1,17 +1,15 @@
-﻿using SelfHostedWebApi;
+﻿using SelfHostedWebApi.Model;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ClientApp
 {
-    class Program
+    internal class Program
     {
-        static HttpClient client = new HttpClient();
-        static void Main(string[] args)
+        private static HttpClient client = new HttpClient();
+
+        private static void Main(string[] args)
         {
             client.BaseAddress = new Uri("http://localhost:8080");
 
@@ -22,8 +20,7 @@ namespace ClientApp
             Console.ReadLine();
         }
 
-
-        static void ListAllUsers()
+        private static void ListAllUsers()
         {
             HttpResponseMessage resp = client.GetAsync("api/basic").Result;
             resp.EnsureSuccessStatusCode();
@@ -35,7 +32,7 @@ namespace ClientApp
             }
         }
 
-        static void UserById(int id)
+        private static void UserById(int id)
         {
             var resp = client.GetAsync(string.Format("api/basic/{0}", id)).Result;
             resp.EnsureSuccessStatusCode();

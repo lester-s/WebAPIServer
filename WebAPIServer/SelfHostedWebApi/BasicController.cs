@@ -1,16 +1,14 @@
-﻿using System;
+﻿using SelfHostedWebApi.Model;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web.Http;
 
 namespace SelfHostedWebApi
 {
-    public class BasicController: ApiController
+    public class BasicController : ApiController
     {
-        User[] users = new User[]
+        private User[] users = new User[]
         {
             new User(1,"simon", 26),
             new User(2,"simon27", 27),
