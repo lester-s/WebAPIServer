@@ -13,8 +13,7 @@ namespace ClientApp
         {
             client.BaseAddress = new Uri("http://localhost:8080");
 
-            ListAllUsers();
-            UserById(1);
+            GetAllUser();
 
             Console.WriteLine("Press Enter to quit.");
             Console.ReadLine();
@@ -39,6 +38,28 @@ namespace ClientApp
 
             var product = resp.Content.ReadAsAsync<User>().Result;
             Console.WriteLine("ID {0}: {1}", id, product.Name);
+        }
+
+        private static void ConnectUser()
+        {
+            var resp = client.GetAsync("api/user/connectuser").Result;
+            resp.EnsureSuccessStatusCode();
+
+            var result = resp.Content.ReadAsAsync<String>().Result;
+            Console.WriteLine(result);
+        }
+
+        private static void GetAllUser()
+        {
+            var resp = client.GetAsync("api/user/GetConnecteduser").Result;
+            resp.EnsureSuccessStatusCode();
+
+            var result = resp.Content.ReadAsAsync<List<User>>().Result;
+
+            foreach(var user in result)
+            {
+                Console.WriteLine($"utilisateur {user.Name} est agé de {user.Age}");
+            }
         }
     }
 }
