@@ -1,0 +1,16 @@
+D:\Projects\WebAPIServer\WebAPIServer\ClientApp\bin\Debug\ClientApp.exe.config
+D:\Projects\WebAPIServer\WebAPIServer\ClientApp\bin\Debug\ClientApp.exe
+D:\Projects\WebAPIServer\WebAPIServer\ClientApp\bin\Debug\ClientApp.pdb
+D:\Projects\WebAPIServer\WebAPIServer\ClientApp\bin\Debug\Newtonsoft.Json.dll
+D:\Projects\WebAPIServer\WebAPIServer\ClientApp\bin\Debug\SelfHostedWebApi.exe
+D:\Projects\WebAPIServer\WebAPIServer\ClientApp\bin\Debug\System.Net.Http.Formatting.dll
+D:\Projects\WebAPIServer\WebAPIServer\ClientApp\bin\Debug\System.Web.Http.dll
+D:\Projects\WebAPIServer\WebAPIServer\ClientApp\bin\Debug\System.Web.Http.SelfHost.dll
+D:\Projects\WebAPIServer\WebAPIServer\ClientApp\bin\Debug\SelfHostedWebApi.pdb
+D:\Projects\WebAPIServer\WebAPIServer\ClientApp\bin\Debug\Newtonsoft.Json.xml
+D:\Projects\WebAPIServer\WebAPIServer\ClientApp\bin\Debug\System.Net.Http.Formatting.xml
+D:\Projects\WebAPIServer\WebAPIServer\ClientApp\bin\Debug\System.Web.Http.xml
+D:\Projects\WebAPIServer\WebAPIServer\ClientApp\bin\Debug\System.Web.Http.SelfHost.xml
+D:\Projects\WebAPIServer\WebAPIServer\ClientApp\obj\Debug\ClientApp.csprojResolveAssemblyReference.cache
+D:\Projects\WebAPIServer\WebAPIServer\ClientApp\obj\Debug\ClientApp.exe
+D:\Projects\WebAPIServer\WebAPIServer\ClientApp\obj\Debug\ClientApp.pdb
