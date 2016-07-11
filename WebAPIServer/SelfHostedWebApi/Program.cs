@@ -2,7 +2,6 @@
 using System;
 using System.Web.Http;
 using System.Web.Http.SelfHost;
-using System.Web;
 
 namespace SelfHostedWebApi
 {
@@ -11,7 +10,7 @@ namespace SelfHostedWebApi
         private static void Main(string[] args)
         {
             var config = new HttpSelfHostConfiguration("http://localhost:8080");
-            
+
             config.Routes.MapHttpRoute(
                 "API Default", "api/{controller}/{action}/{id}",
                 new { id = RouteParameter.Optional },

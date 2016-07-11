@@ -14,7 +14,7 @@ namespace ClientApp
         private static void Main(string[] args)
         {
             client.BaseAddress = new Uri("http://localhost:8080");
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String( ASCIIEncoding.ASCII.GetBytes( string.Format("{0}:{1}", "yourusername", "yourpwd"))));
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(ASCIIEncoding.ASCII.GetBytes(string.Format("{0}:{1}", "yourusername", "yourpwd"))));
             GetAllUser();
 
             Console.WriteLine("Press Enter to quit.");

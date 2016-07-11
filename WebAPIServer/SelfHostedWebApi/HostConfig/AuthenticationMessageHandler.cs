@@ -1,6 +1,4 @@
-﻿using SelfHostedWebApi.ServerControllers;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -13,15 +11,15 @@ using System.Web.Http.Dispatcher;
 
 namespace SelfHostedWebApi.HostConfig
 {
-    class AuthenticationMessageHandler: DelegatingHandler
+    internal class AuthenticationMessageHandler : DelegatingHandler
     {
         private const string WWWAuthenticateHeader = "WWW-Authenticate";
-
 
         public AuthenticationMessageHandler(HttpConfiguration httpconfiguration)
         {
             InnerHandler = new HttpControllerDispatcher(httpconfiguration);
         }
+
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
             var actionName = GetRequestActionName(request);
@@ -50,20 +48,7 @@ namespace SelfHostedWebApi.HostConfig
                 });
             }
 
-            try
-            {
-                var response = await base.SendAsync(request, cancellationToken);
-                return response;
-
-            }
-            catch(Exception ex)
-            {
-                var t = ex.Message;
-            }
-
-            return null;
-
-
+            return await base.SendAsync(request, cancellationToken);
         }
 
         protected virtual BasicAuthenticationIdentity ParseAuthorizationHeader(HttpRequestMessage request)
@@ -85,7 +70,7 @@ namespace SelfHostedWebApi.HostConfig
             return new BasicAuthenticationIdentity(tokens[0], tokens[1]);
         }
 
-        void Challenge(HttpRequestMessage request, HttpResponseMessage response)
+        private void Challenge(HttpRequestMessage request, HttpResponseMessage response)
         {
             var host = request.RequestUri.DnsSafeHost;
             response.Headers.Add(WWWAuthenticateHeader, string.Format("Basic realm=\"{0}\"", host));

@@ -2,14 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SelfHostedWebApi.BuisnessLayer
 {
     public class AppHandler
     {
-
         private static AppHandler instance;
 
         private AppHandler()
@@ -31,7 +28,7 @@ namespace SelfHostedWebApi.BuisnessLayer
 
         internal void ConnectMultipleUser(User[] users)
         {
-            foreach(var user in users)
+            foreach (var user in users)
             {
                 ConnectUser(user);
             }
@@ -41,14 +38,14 @@ namespace SelfHostedWebApi.BuisnessLayer
 
         private bool NameAlreadyInUse(string nameToCheck)
         {
-            if(string.IsNullOrWhiteSpace(nameToCheck))
+            if (string.IsNullOrWhiteSpace(nameToCheck))
             {
                 throw new ArgumentNullException(nameof(nameToCheck), "a Value is missing");
             }
 
             var result = instance.ConnectedUsers.Where(u => u.Name == nameToCheck.ToLower());
 
-            if(result != null && result.Count() >= 1 )
+            if (result != null && result.Count() >= 1)
             {
                 return true;
             }
@@ -60,7 +57,7 @@ namespace SelfHostedWebApi.BuisnessLayer
 
         public bool ConnectUser(User userToConnect)
         {
-            if(NameAlreadyInUse(userToConnect.Name))
+            if (NameAlreadyInUse(userToConnect.Name))
             {
                 return false;
             }

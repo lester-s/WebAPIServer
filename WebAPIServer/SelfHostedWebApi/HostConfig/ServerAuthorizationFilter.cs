@@ -1,10 +1,9 @@
-﻿
-using System.Web.Http;
+﻿using System.Web.Http;
 using System.Web.Http.Controllers;
 
 namespace SelfHostedWebApi.HostConfig
 {
-    public class ServerAuthorizationFilter: AuthorizeAttribute
+    public class ServerAuthorizationFilter : AuthorizeAttribute
     {
         protected override bool IsAuthorized(HttpActionContext actionContext)
         {

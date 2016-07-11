@@ -1,9 +1,6 @@
 ﻿using SelfHostedWebApi.Model;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SelfHostedWebApi.BuisnessLayer
 {
@@ -15,6 +12,7 @@ namespace SelfHostedWebApi.BuisnessLayer
             new User(2,"simon27", 27),
             new User(3,"simon28", 28)
         };
+
         public UserBLL()
         {
             AppHandler.Instance.ConnectMultipleUser(users);
