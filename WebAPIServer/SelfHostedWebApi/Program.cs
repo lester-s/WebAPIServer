@@ -19,6 +19,8 @@ namespace SelfHostedWebApi
                 , handler: new AuthenticationMessageHandler(config)
                 );
 
+            config.Filters.Add(new ServerAuthorizationFilter());
+
             //config.Filters.Add(new ServerAuthorizationFilter());
 
             using (HttpSelfHostServer server = new HttpSelfHostServer(config))

@@ -27,7 +27,6 @@ namespace SelfHostedWebApi.ServerControllers
         }
 
         [HttpGet]
-        [ServerAuthorizationFilter]
         [ActionName("GetAlluser")]
         public List<User> GetAlluser()
         {

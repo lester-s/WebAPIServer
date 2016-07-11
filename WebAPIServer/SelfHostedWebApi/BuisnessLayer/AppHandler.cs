@@ -16,11 +16,6 @@ namespace SelfHostedWebApi.BuisnessLayer
 
         private static AppHandler instance;
 
-        private AppHandler()
-        {
-            ConnectedUsers = new List<User>();
-        }
-
         public static AppHandler Instance
         {
             get
@@ -33,15 +28,28 @@ namespace SelfHostedWebApi.BuisnessLayer
             }
         }
 
-        internal void ConnectMultipleUser(User[] users)
+        public List<User> ConnectedUsers { get; set; }
+
+        private AppHandler()
         {
-            foreach (var user in users)
-            {
-                ConnectUser(user);
-            }
+            //ConnectedUsers = new List<User>();
         }
 
-        public List<User> ConnectedUsers { get; set; }
+        public bool ConnectUser(User userToConnect)
+        {
+            if (userToConnect == null || string.IsNullOrWhiteSpace(userToConnect.Name))
+            {
+                throw new ArgumentNullException(nameof(userToConnect), "Argument null in Apphandler");
+            }
+
+            if (NameAlreadyInUse(userToConnect.Name))
+            {
+                return false;
+            }
+
+            ConnectedUsers.Add(userToConnect);
+            return true;
+        }
 
         private bool NameAlreadyInUse(string nameToCheck)
         {
@@ -62,15 +70,17 @@ namespace SelfHostedWebApi.BuisnessLayer
             }
         }
 
-        public bool ConnectUser(User userToConnect)
+        internal void ConnectMultipleUser(User[] users)
         {
-            if (NameAlreadyInUse(userToConnect.Name))
+            if (users == null)
             {
-                return false;
+                throw new ArgumentNullException(nameof(users), "Argument is null in Apphandler");
             }
 
-            ConnectedUsers.Add(userToConnect);
-            return true;
+            foreach (var user in users)
+            {
+                ConnectUser(user);
+            }
         }
     }
 }

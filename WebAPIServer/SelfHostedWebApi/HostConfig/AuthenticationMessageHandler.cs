@@ -52,6 +52,11 @@ namespace SelfHostedWebApi.HostConfig
 
         protected virtual BasicAuthenticationIdentity ParseAuthorizationHeader(HttpRequestMessage request)
         {
+            if (request == null)
+            {
+                throw new ArgumentNullException(nameof(request), "argument is null in ParseAuthorizationHeader.");
+            }
+
             string authHeader = null;
             var auth = request.Headers.Authorization;
             if (auth != null && auth.Scheme == "Basic")
@@ -73,6 +78,11 @@ namespace SelfHostedWebApi.HostConfig
 
         private bool ValidateAuthenticationData(string[] tokens)
         {
+            if (tokens == null || tokens.Length < 2)
+            {
+                throw new ArgumentException(nameof(tokens), "One argument is wrong in ValidateAuthenticationData");
+            }
+
             var userExist = AppHandler.Instance.users.Where(u => u.Name == tokens[0] && u.Password == tokens[1]).FirstOrDefault();
 
             return userExist != null ? true : false;
@@ -86,8 +96,19 @@ namespace SelfHostedWebApi.HostConfig
 
         private string GetRequestActionName(HttpRequestMessage request)
         {
+            if (request == null || string.IsNullOrWhiteSpace(request.RequestUri.LocalPath))
+            {
+                throw new ArgumentException(nameof(request), "GetRequestActionName, request malformed");
+            }
+
             var localUri = request.RequestUri.LocalPath;
             var splittedUri = localUri.Split('/');
+
+            if (splittedUri.Length < 3)
+            {
+                throw new ArgumentException(nameof(request.RequestUri.LocalPath), "GetRequestActionName, LocalPath malformed");
+            }
+
             return splittedUri.ElementAt(3).ToLower();
         }
     }

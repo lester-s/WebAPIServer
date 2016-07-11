@@ -6,8 +6,6 @@ namespace SelfHostedWebApi.BuisnessLayer
 {
     public class UserBLL
     {
-        
-
         public UserBLL()
         {
         }
