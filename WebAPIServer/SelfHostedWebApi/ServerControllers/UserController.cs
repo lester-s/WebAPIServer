@@ -1,8 +1,10 @@
 ﻿using SelfHostedWebApi.BuisnessLayer;
+using SelfHostedWebApi.HostConfig;
 using SelfHostedWebApi.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -13,13 +15,14 @@ namespace SelfHostedWebApi.ServerControllers
     {
         [HttpPost]
         [ActionName("ConnectUser")]
-        public bool ConnectUser(User userToConnect)
+        public HttpResponseMessage ConnectUser(User userToConnect)
         {
             var bll = new UserBLL();
-            return bll.ConnectUser(userToConnect);
+            return ControllerContext.Request.CreateResponse(System.Net.HttpStatusCode.Accepted, bll.ConnectUser(userToConnect));
         }
 
         [HttpGet]
+        [ServerAuthorizationFilter]
         [ActionName("GetConnecteduser")]
         public List<User> GetConnecteduser()
         {

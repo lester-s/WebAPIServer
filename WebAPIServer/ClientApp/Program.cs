@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
 
 namespace ClientApp
 {
@@ -12,7 +14,7 @@ namespace ClientApp
         private static void Main(string[] args)
         {
             client.BaseAddress = new Uri("http://localhost:8080");
-
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String( ASCIIEncoding.ASCII.GetBytes( string.Format("{0}:{1}", "yourusername", "yourpwd"))));
             GetAllUser();
 
             Console.WriteLine("Press Enter to quit.");
@@ -56,7 +58,7 @@ namespace ClientApp
 
             var result = resp.Content.ReadAsAsync<List<User>>().Result;
 
-            foreach(var user in result)
+            foreach (var user in result)
             {
                 Console.WriteLine($"utilisateur {user.Name} est agé de {user.Age}");
             }
