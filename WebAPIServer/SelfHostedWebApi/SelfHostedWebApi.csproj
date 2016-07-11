@@ -59,7 +59,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BasicController.cs" />
     <Compile Include="BuisnessLayer\AppHandler.cs" />
     <Compile Include="BuisnessLayer\UserBLL.cs" />
     <Compile Include="HostConfig\AuthenticationMessageHandler.cs" />

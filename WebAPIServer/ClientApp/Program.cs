@@ -14,11 +14,21 @@ namespace ClientApp
         private static void Main(string[] args)
         {
             client.BaseAddress = new Uri("http://localhost:8080");
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(ASCIIEncoding.ASCII.GetBytes(string.Format("{0}:{1}", "yourusername", "yourpwd"))));
+            AskCredentials();
+        }
+
+        private static void AskCredentials()
+        {
+            Console.WriteLine("Username:");
+            var userName = Console.ReadLine();
+
+            Console.WriteLine("Password:");
+            var password = Console.ReadLine();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(ASCIIEncoding.ASCII.GetBytes($"{userName.Trim().ToLower()}:{password.Trim()}")));
+
             GetAllUser();
 
-            Console.WriteLine("Press Enter to quit.");
-            Console.ReadLine();
+            AskCredentials();
         }
 
         private static void ListAllUsers()
@@ -42,8 +52,9 @@ namespace ClientApp
             Console.WriteLine("ID {0}: {1}", id, product.Name);
         }
 
-        private static void ConnectUser()
+        private static void ConnectUser(string userName, string password)
         {
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(ASCIIEncoding.ASCII.GetBytes($"{userName.Trim().ToLower()}:{password.Trim()}")));
             var resp = client.GetAsync("api/user/connectuser").Result;
             resp.EnsureSuccessStatusCode();
 
@@ -53,7 +64,7 @@ namespace ClientApp
 
         private static void GetAllUser()
         {
-            var resp = client.GetAsync("api/user/GetConnecteduser").Result;
+            var resp = client.GetAsync("api/user/GetAlluser").Result;
             resp.EnsureSuccessStatusCode();
 
             var result = resp.Content.ReadAsAsync<List<User>>().Result;

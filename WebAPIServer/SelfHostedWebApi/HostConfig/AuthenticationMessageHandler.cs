@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SelfHostedWebApi.BuisnessLayer;
+using System;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -47,8 +48,6 @@ namespace SelfHostedWebApi.HostConfig
                     return response;
                 });
             }
-
-            return await base.SendAsync(request, cancellationToken);
         }
 
         protected virtual BasicAuthenticationIdentity ParseAuthorizationHeader(HttpRequestMessage request)
@@ -67,7 +66,16 @@ namespace SelfHostedWebApi.HostConfig
             if (tokens.Length < 2)
                 return null;
 
-            return new BasicAuthenticationIdentity(tokens[0], tokens[1]);
+            bool result = ValidateAuthenticationData(tokens);
+
+            return !result ? null : new BasicAuthenticationIdentity(tokens[0], tokens[1]);
+        }
+
+        private bool ValidateAuthenticationData(string[] tokens)
+        {
+            var userExist = AppHandler.Instance.users.Where(u => u.Name == tokens[0] && u.Password == tokens[1]).FirstOrDefault();
+
+            return userExist != null ? true : false;
         }
 
         private void Challenge(HttpRequestMessage request, HttpResponseMessage response)

@@ -21,7 +21,7 @@ namespace SelfHostedWebApi.HostConfig
                 return true;
             }
 
-            return true;
+            return false;
         }
     }
 }

@@ -9,7 +9,7 @@ namespace SelfHostedWebApi.ServerControllers
 {
     public class UserController : ApiController
     {
-        [HttpPost]
+        [HttpGet]
         [ActionName("ConnectUser")]
         public HttpResponseMessage ConnectUser(User userToConnect)
         {
@@ -24,6 +24,15 @@ namespace SelfHostedWebApi.ServerControllers
         {
             var bll = new UserBLL();
             return bll.GetConnectedUsers();
+        }
+
+        [HttpGet]
+        [ServerAuthorizationFilter]
+        [ActionName("GetAlluser")]
+        public List<User> GetAlluser()
+        {
+            var bll = new UserBLL();
+            return bll.GetAllUsers();
         }
     }
 }
