@@ -1,7 +1,4 @@
-﻿using SelfHostedWebApi.BuisnessLayer;
-using System;
-using System.Security.Claims;
-using System.Security.Principal;
+﻿using System.Security.Principal;
 
 namespace SelfHostedWebApi.HostConfig
 {
@@ -17,6 +14,7 @@ namespace SelfHostedWebApi.HostConfig
         /// Basic Auth Password for custom authentication
         /// </summary>
         public string Password { get; set; }
+
         public ServerStaticValues.AppRole Role { get; set; }
     }
 }
