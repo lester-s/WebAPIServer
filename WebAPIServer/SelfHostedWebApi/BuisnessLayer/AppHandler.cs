@@ -14,6 +14,8 @@ namespace SelfHostedWebApi.BuisnessLayer
             new User(3,"simon28", 28, "123", "reader")
         };
 
+        public bool IsAuthenticationActive { get; set; } = true;
+
         private static AppHandler instance;
 
         public static AppHandler Instance

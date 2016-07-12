@@ -1,4 +1,5 @@
-﻿using SelfHostedWebApi.HostConfig;
+﻿using SelfHostedWebApi.BuisnessLayer;
+using SelfHostedWebApi.HostConfig;
 using System;
 using System.Web.Http;
 using System.Web.Http.SelfHost;
@@ -16,12 +17,16 @@ namespace SelfHostedWebApi
                 new { id = RouteParameter.Optional },
                 constraints: null
 
-                , handler: new AuthenticationMessageHandler(config)
+                //, handler: new AuthenticationMessageHandler(config)
                 );
 
-            config.Filters.Add(new ServerAuthorizationFilter() { Role = ServerStaticValues.AppRole.Admin });
-
-            //config.Filters.Add(new ServerAuthorizationFilter());
+            //if(args .Length <= 0 || bool.Parse(args[0]))
+            AppHandler.Instance.IsAuthenticationActive = false;
+            if (false)
+            {
+                config.MessageHandlers.Add(new AuthenticationMessageHandler());
+                config.Filters.Add(new ServerAuthorizationFilter() { Role = ServerStaticValues.AppRole.Admin });
+            }
 
             using (HttpSelfHostServer server = new HttpSelfHostServer(config))
             {

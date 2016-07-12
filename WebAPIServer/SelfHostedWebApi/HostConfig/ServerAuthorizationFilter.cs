@@ -1,4 +1,5 @@
-﻿using System.Web.Http;
+﻿using SelfHostedWebApi.BuisnessLayer;
+using System.Web.Http;
 using System.Web.Http.Controllers;
 
 namespace SelfHostedWebApi.HostConfig
@@ -9,9 +10,13 @@ namespace SelfHostedWebApi.HostConfig
 
         protected override bool IsAuthorized(HttpActionContext actionContext)
         {
+
+            if(!AppHandler.Instance.IsAuthenticationActive)
+            {
+                return true;
+            }
+
             var identity = actionContext.RequestContext.Principal.Identity;
-            //if (identity == null && HttpContext.Current != null)
-            //    identity = HttpContext.Current.User.Identity;
 
             if (identity != null && identity.IsAuthenticated)
             {

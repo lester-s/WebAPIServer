@@ -20,6 +20,10 @@ namespace SelfHostedWebApi.HostConfig
         {
             InnerHandler = new HttpControllerDispatcher(httpconfiguration);
         }
+        public AuthenticationMessageHandler()
+        {
+
+        }
 
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
