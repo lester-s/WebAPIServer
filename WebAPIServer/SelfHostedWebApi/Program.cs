@@ -19,7 +19,7 @@ namespace SelfHostedWebApi
                 , handler: new AuthenticationMessageHandler(config)
                 );
 
-            config.Filters.Add(new ServerAuthorizationFilter());
+            config.Filters.Add(new ServerAuthorizationFilter() { Role = ServerStaticValues.AppRole.Admin });
 
             //config.Filters.Add(new ServerAuthorizationFilter());
 

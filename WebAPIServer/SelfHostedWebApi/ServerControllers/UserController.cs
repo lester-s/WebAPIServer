@@ -18,7 +18,8 @@ namespace SelfHostedWebApi.ServerControllers
         }
 
         [HttpGet]
-        [ServerAuthorizationFilter]
+        [OverrideAuthorization]
+        [ServerAuthorizationFilter(Role = ServerStaticValues.AppRole.reader)]
         [ActionName("GetConnecteduser")]
         public List<User> GetConnecteduser()
         {

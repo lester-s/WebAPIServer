@@ -26,9 +26,30 @@ namespace ClientApp
             var password = Console.ReadLine();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(ASCIIEncoding.ASCII.GetBytes($"{userName.Trim().ToLower()}:{password.Trim()}")));
 
-            GetAllUser();
+            try
+            {
+                GetConnectedUser();
+                GetAllUser();
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
 
             AskCredentials();
+        }
+
+        private static void GetConnectedUser()
+        {
+            var resp = client.GetAsync("api/user/GetConnecteduser").Result;
+            resp.EnsureSuccessStatusCode();
+
+            var result = resp.Content.ReadAsAsync<List<User>>().Result;
+
+            foreach (var user in result)
+            {
+                Console.WriteLine($"utilisateur {user.Name} est agé de {user.Age}");
+            }
         }
 
         private static void ListAllUsers()

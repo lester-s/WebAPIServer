@@ -60,6 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BuisnessLayer\AppHandler.cs" />
+    <Compile Include="BuisnessLayer\MyHelper.cs" />
     <Compile Include="BuisnessLayer\UserBLL.cs" />
     <Compile Include="HostConfig\AuthenticationMessageHandler.cs" />
     <Compile Include="HostConfig\BasicAuthenticationIdentity.cs" />

@@ -34,8 +34,7 @@ namespace SelfHostedWebApi.HostConfig
 
                 if (credentials != null)
                 {
-                    var identity = new BasicAuthenticationIdentity(credentials.Name, credentials.Password);
-                    var principal = new GenericPrincipal(identity, null);
+                    var principal = new GenericPrincipal(credentials, null);
                     request.GetRequestContext().Principal = principal;
                 }
 
@@ -71,12 +70,12 @@ namespace SelfHostedWebApi.HostConfig
             if (tokens.Length < 2)
                 return null;
 
-            bool result = ValidateAuthenticationData(tokens);
+            var result = ValidateAuthenticationData(tokens);
 
-            return !result ? null : new BasicAuthenticationIdentity(tokens[0], tokens[1]);
+            return result == ServerStaticValues.AppRole.nothing ? null : new BasicAuthenticationIdentity(tokens[0], tokens[1], result);
         }
 
-        private bool ValidateAuthenticationData(string[] tokens)
+        private ServerStaticValues.AppRole ValidateAuthenticationData(string[] tokens)
         {
             if (tokens == null || tokens.Length < 2)
             {
@@ -85,7 +84,7 @@ namespace SelfHostedWebApi.HostConfig
 
             var userExist = AppHandler.Instance.users.Where(u => u.Name == tokens[0] && u.Password == tokens[1]).FirstOrDefault();
 
-            return userExist != null ? true : false;
+            return userExist != null ? userExist.Role : ServerStaticValues.AppRole.nothing;
         }
 
         private void Challenge(HttpRequestMessage request, HttpResponseMessage response)

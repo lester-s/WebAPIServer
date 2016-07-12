@@ -22,6 +22,7 @@ namespace SelfHostedWebApi.BuisnessLayer
 
         public List<User> GetConnectedUsers()
         {
+            return AppHandler.Instance.users;
             return AppHandler.Instance.ConnectedUsers;
         }
 

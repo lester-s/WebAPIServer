@@ -9,9 +9,9 @@ namespace SelfHostedWebApi.BuisnessLayer
     {
         public List<User> users = new List<User>
         {
-            new User(1,"simon", 26, "123"),
-            new User(2,"simon27", 27, "123"),
-            new User(3,"simon28", 28, "123")
+            new User(1,"simon", 26, "123", "admin"),
+            new User(2,"simon27", 27, "123", "reader"),
+            new User(3,"simon28", 28, "123", "reader")
         };
 
         private static AppHandler instance;
