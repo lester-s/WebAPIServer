@@ -1,7 +1,4 @@
-﻿using SelfHostedWebApi.BuisnessLayer;
-using SelfHostedWebApi.HostConfig;
-
-namespace SelfHostedWebApi.Model
+﻿namespace SelfHostedWebApi.Model
 {
     public class User
     {
@@ -14,7 +11,6 @@ namespace SelfHostedWebApi.Model
 
         public User()
         {
-
         }
 
         public int Id { get; private set; }

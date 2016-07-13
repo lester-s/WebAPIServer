@@ -4,7 +4,7 @@
     {
         #region sync CRUD
 
-        void Create<T>(T newItem) where T : new();
+        bool Create<T>(T newItem) where T : new();
 
         void Read<T>() where T : new();
 

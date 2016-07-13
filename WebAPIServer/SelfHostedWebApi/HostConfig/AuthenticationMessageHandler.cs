@@ -88,7 +88,7 @@ namespace SelfHostedWebApi.HostConfig
 
             var userExist = AppHandler.Instance.users.Where(u => u.Pseudo == tokens[0] && u.Password == tokens[1]).FirstOrDefault();
 
-            return userExist != null ? MyHelper.AuthorizationHelper.GetRoleFromString( userExist.Role ): ServerStaticValues.AppRole.nothing;
+            return userExist != null ? MyHelper.AuthorizationHelper.GetRoleFromString(userExist.Role) : ServerStaticValues.AppRole.nothing;
         }
 
         private void Challenge(HttpRequestMessage request, HttpResponseMessage response)
