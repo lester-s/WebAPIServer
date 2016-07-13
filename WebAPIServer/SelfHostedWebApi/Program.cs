@@ -20,7 +20,7 @@ namespace SelfHostedWebApi
 
             bool parseValue = true;
 
-            if(args.Length > 0)
+            if (args.Length > 0)
             {
                 var parseResult = bool.TryParse(args[0], out parseValue);
 

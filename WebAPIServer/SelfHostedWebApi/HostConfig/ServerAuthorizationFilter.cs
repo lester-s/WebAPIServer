@@ -10,8 +10,7 @@ namespace SelfHostedWebApi.HostConfig
 
         protected override bool IsAuthorized(HttpActionContext actionContext)
         {
-
-            if(!AppHandler.Instance.IsAuthenticationActive)
+            if (!AppHandler.Instance.IsAuthenticationActive)
             {
                 return true;
             }
