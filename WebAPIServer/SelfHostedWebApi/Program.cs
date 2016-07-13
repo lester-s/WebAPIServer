@@ -16,13 +16,20 @@ namespace SelfHostedWebApi
                 "API Default", "api/{controller}/{action}/{id}",
                 new { id = RouteParameter.Optional },
                 constraints: null
-
-                //, handler: new AuthenticationMessageHandler(config)
                 );
 
-            //if(args .Length <= 0 || bool.Parse(args[0]))
-            AppHandler.Instance.IsAuthenticationActive = false;
-            if (false)
+            bool parseValue = true;
+
+            if(args.Length > 0)
+            {
+                var parseResult = bool.TryParse(args[0], out parseValue);
+
+                parseValue = parseResult ? parseValue : true;
+            }
+
+            AppHandler.Instance.IsAuthenticationActive = parseValue;
+
+            if (AppHandler.Instance.IsAuthenticationActive)
             {
                 config.MessageHandlers.Add(new AuthenticationMessageHandler());
                 config.Filters.Add(new ServerAuthorizationFilter() { Role = ServerStaticValues.AppRole.Admin });
