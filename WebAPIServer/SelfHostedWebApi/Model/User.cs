@@ -5,19 +5,21 @@ namespace SelfHostedWebApi.Model
 {
     public class User
     {
-        public User(int id, string name, int age, string password, string role)
+        public User(string name, string password, string role)
         {
-            Id = id;
-            Name = name;
-            Age = age;
+            Pseudo = name;
             Password = password;
-            Role = MyHelper.AuthorizationHelper.setRoleFromString(role);
+            Role = role;
         }
 
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public int Age { get; set; }
+        public User()
+        {
+
+        }
+
+        public int Id { get; private set; }
+        public string Pseudo { get; set; }
         public string Password { get; set; }
-        public ServerStaticValues.AppRole Role { get; set; }
+        public string Role { get; set; }
     }
 }

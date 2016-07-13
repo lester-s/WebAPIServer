@@ -7,7 +7,7 @@ namespace SelfHostedWebApi.BuisnessLayer
     {
         public static class AuthorizationHelper
         {
-            public static ServerStaticValues.AppRole setRoleFromString(string role)
+            public static ServerStaticValues.AppRole GetRoleFromString(string role)
             {
                 if (string.IsNullOrWhiteSpace(role))
                 {

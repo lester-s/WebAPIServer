@@ -9,9 +9,9 @@ namespace SelfHostedWebApi.BuisnessLayer
     {
         public List<User> users = new List<User>
         {
-            new User(1,"simon", 26, "123", "admin"),
-            new User(2,"simon27", 27, "123", "reader"),
-            new User(3,"simon28", 28, "123", "reader")
+            new User("simon", "123", "admin"),
+            new User("simon27", "123", "reader"),
+            new User("simon28", "123", "reader")
         };
 
         public bool IsAuthenticationActive { get; set; } = true;
@@ -39,12 +39,12 @@ namespace SelfHostedWebApi.BuisnessLayer
 
         public bool ConnectUser(User userToConnect)
         {
-            if (userToConnect == null || string.IsNullOrWhiteSpace(userToConnect.Name))
+            if (userToConnect == null || string.IsNullOrWhiteSpace(userToConnect.Pseudo))
             {
                 throw new ArgumentNullException(nameof(userToConnect), "Argument null in Apphandler");
             }
 
-            if (NameAlreadyInUse(userToConnect.Name))
+            if (NameAlreadyInUse(userToConnect.Pseudo))
             {
                 return false;
             }
@@ -60,7 +60,7 @@ namespace SelfHostedWebApi.BuisnessLayer
                 throw new ArgumentNullException(nameof(nameToCheck), "a Value is missing");
             }
 
-            var result = instance.ConnectedUsers.Where(u => u.Name == nameToCheck.ToLower());
+            var result = instance.ConnectedUsers.Where(u => u.Pseudo == nameToCheck.ToLower());
 
             if (result != null && result.Count() >= 1)
             {

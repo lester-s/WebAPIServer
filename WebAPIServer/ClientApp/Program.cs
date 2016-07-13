@@ -28,8 +28,7 @@ namespace ClientApp
 
             try
             {
-                GetConnectedUser();
-                GetAllUser();
+                CreateUser();
             }
             catch (Exception ex)
             {
@@ -48,7 +47,7 @@ namespace ClientApp
 
             foreach (var user in result)
             {
-                Console.WriteLine($"utilisateur {user.Name} est agé de {user.Age}");
+                Console.WriteLine($"utilisateur {user.Pseudo} est agé de x");
             }
         }
 
@@ -60,7 +59,7 @@ namespace ClientApp
             var products = resp.Content.ReadAsAsync<IEnumerable<User>>().Result;
             foreach (var p in products)
             {
-                Console.WriteLine("{0} {1} {2}", p.Id, p.Name, p.Age);
+                Console.WriteLine("{0} {1}", p.Id, p.Pseudo);
             }
         }
 
@@ -70,7 +69,7 @@ namespace ClientApp
             resp.EnsureSuccessStatusCode();
 
             var product = resp.Content.ReadAsAsync<User>().Result;
-            Console.WriteLine("ID {0}: {1}", id, product.Name);
+            Console.WriteLine("ID {0}: {1}", id, product.Pseudo);
         }
 
         private static void ConnectUser(string userName, string password)
@@ -92,7 +91,20 @@ namespace ClientApp
 
             foreach (var user in result)
             {
-                Console.WriteLine($"utilisateur {user.Name} est agé de {user.Age}");
+                Console.WriteLine($"utilisateur {user.Pseudo} est agé de x");
+            }
+        }
+
+        private static void CreateUser()
+        {
+            var resp = client.GetAsync("api/user/CreateUser").Result;
+            resp.EnsureSuccessStatusCode();
+
+            var result = resp.Content.ReadAsAsync<List<User>>().Result;
+
+            foreach (var user in result)
+            {
+                Console.WriteLine($"utilisateur {user.Pseudo} est agé de x");
             }
         }
     }

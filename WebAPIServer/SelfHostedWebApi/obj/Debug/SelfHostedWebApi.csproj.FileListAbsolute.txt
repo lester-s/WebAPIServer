@@ -11,4 +11,12 @@ D:\Projects\WebAPIServer\WebAPIServer\SelfHostedWebApi\bin\Debug\System.Web.Http
 D:\Projects\WebAPIServer\WebAPIServer\SelfHostedWebApi\bin\Debug\System.Web.Http.SelfHost.xml
 D:\Projects\WebAPIServer\WebAPIServer\SelfHostedWebApi\obj\Debug\SelfHostedWebApi.exe
 D:\Projects\WebAPIServer\WebAPIServer\SelfHostedWebApi\obj\Debug\SelfHostedWebApi.pdb
+D:\Projects\WebAPIServer\WebAPIServer\SelfHostedWebApi\bin\Debug\EntityFramework.dll
+D:\Projects\WebAPIServer\WebAPIServer\SelfHostedWebApi\bin\Debug\EntityFramework.SqlServer.dll
+D:\Projects\WebAPIServer\WebAPIServer\SelfHostedWebApi\bin\Debug\System.Data.SQLite.dll
+D:\Projects\WebAPIServer\WebAPIServer\SelfHostedWebApi\bin\Debug\System.Data.SQLite.EF6.dll
+D:\Projects\WebAPIServer\WebAPIServer\SelfHostedWebApi\bin\Debug\System.Data.SQLite.Linq.dll
+D:\Projects\WebAPIServer\WebAPIServer\SelfHostedWebApi\bin\Debug\EntityFramework.xml
+D:\Projects\WebAPIServer\WebAPIServer\SelfHostedWebApi\bin\Debug\EntityFramework.SqlServer.xml
+D:\Projects\WebAPIServer\WebAPIServer\SelfHostedWebApi\bin\Debug\System.Data.SQLite.xml
 D:\Projects\WebAPIServer\WebAPIServer\SelfHostedWebApi\obj\Debug\SelfHostedWebApi.csprojResolveAssemblyReference.cache

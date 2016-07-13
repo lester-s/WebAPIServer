@@ -34,5 +34,13 @@ namespace SelfHostedWebApi.ServerControllers
             var bll = new UserBLL();
             return bll.GetAllUsers();
         }
+
+        [HttpGet]
+        [ActionName("CreateUser")]
+        public List<User> CreateUser()
+        {
+            var bll = new UserBLL();
+            return bll.CreateUser();
+        }
     }
 }

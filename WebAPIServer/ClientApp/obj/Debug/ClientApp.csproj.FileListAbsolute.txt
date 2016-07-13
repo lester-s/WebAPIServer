@@ -14,3 +14,6 @@ D:\Projects\WebAPIServer\WebAPIServer\ClientApp\bin\Debug\System.Web.Http.SelfHo
 D:\Projects\WebAPIServer\WebAPIServer\ClientApp\obj\Debug\ClientApp.csprojResolveAssemblyReference.cache
 D:\Projects\WebAPIServer\WebAPIServer\ClientApp\obj\Debug\ClientApp.exe
 D:\Projects\WebAPIServer\WebAPIServer\ClientApp\obj\Debug\ClientApp.pdb
+D:\Projects\WebAPIServer\WebAPIServer\ClientApp\bin\Debug\System.Data.SQLite.Linq.dll
+D:\Projects\WebAPIServer\WebAPIServer\ClientApp\bin\Debug\System.Data.SQLite.dll
+D:\Projects\WebAPIServer\WebAPIServer\ClientApp\bin\Debug\System.Data.SQLite.xml
