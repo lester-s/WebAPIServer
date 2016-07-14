@@ -37,10 +37,18 @@ namespace SelfHostedWebApi.ServerControllers
 
         [HttpGet]
         [ActionName("CreateUser")]
-        public List<User> CreateUser()
+        public bool CreateUser()
         {
             var bll = new UserBLL();
             return bll.CreateUser();
+        }
+
+        [HttpPost]
+        [ActionName("DeleteUser")]
+        public bool DeleteUser(User userToDelete)
+        {
+            var bll = new UserBLL();
+            return bll.DeleteUser(userToDelete);
         }
     }
 }

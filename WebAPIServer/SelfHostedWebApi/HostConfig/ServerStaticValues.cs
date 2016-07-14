@@ -6,7 +6,7 @@ namespace SelfHostedWebApi.HostConfig
     {
         public readonly static string MethodName_UserConnect = "ConnectUser";
 
-        public readonly static List<string> IDsNames = new List<string>() { "ID" };
+        public readonly static string IdName = "ID";
 
         public enum AppRole
         {

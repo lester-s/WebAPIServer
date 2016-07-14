@@ -35,7 +35,7 @@ namespace SelfHostedWebApi.BuisnessLayer
             return AppHandler.Instance.users;
         }
 
-        internal List<User> CreateUser()
+        internal bool CreateUser()
         {
             var newUser = new User("s", "s", "admin");
             if (newUser == null)
@@ -43,9 +43,17 @@ namespace SelfHostedWebApi.BuisnessLayer
                 throw new ArgumentNullException(nameof(newUser), "Argument cannot be null in UserBLL");
             }
 
-            DbHandler.Create<User>(newUser);
+            return DbHandler.Create<User>(newUser);
+        }
 
-            return null;
+        internal bool DeleteUser(User userToDelete)
+        {
+            if(userToDelete == null || userToDelete.Id <= 0)
+            {
+                throw new ArgumentException(nameof(userToDelete), "User needed for delete");
+            }
+
+            return DbHandler.Delete<User>(userToDelete);
         }
     }
 }

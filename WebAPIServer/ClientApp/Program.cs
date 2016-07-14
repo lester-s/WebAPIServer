@@ -28,7 +28,7 @@ namespace ClientApp
 
             try
             {
-                CreateUser();
+                DeleteUser();
             }
             catch (Exception ex)
             {
@@ -106,6 +106,13 @@ namespace ClientApp
             {
                 Console.WriteLine($"utilisateur {user.Pseudo} est agé de x");
             }
+        }
+
+        private static async void DeleteUser()
+        {
+            var userToDelete = new User("s", "s", "admin") { Id = 2 };
+            var result = await client.PostAsJsonAsync<User>("api/user/DeleteUser", userToDelete);
+            Console.WriteLine(result.StatusCode);
         }
     }
 }

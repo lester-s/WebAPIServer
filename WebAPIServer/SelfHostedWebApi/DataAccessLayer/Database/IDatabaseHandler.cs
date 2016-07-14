@@ -1,20 +1,22 @@
-﻿namespace SelfHostedWebApi.DataAccessLayer.Database
+﻿using SelfHostedWebApi.Model;
+
+namespace SelfHostedWebApi.DataAccessLayer.Database
 {
     public interface IDatabaseHandler
     {
         #region sync CRUD
 
-        bool Create<T>(T newItem) where T : new();
+        bool Create<T>(T newItem) where T : BaseModel, new();
 
-        void Read<T>() where T : new();
+        bool Read<T>() where T : BaseModel, new();
 
-        void ReadById<T>(int id) where T : new();
+        bool ReadById<T>(int id) where T : BaseModel, new();
 
-        void Update<T>(T updatedItem) where T : new();
+        bool Update<T>(T updatedItem) where T : BaseModel, new();
 
-        void Delete<T>(T itemToDelete) where T : new();
+        bool Delete<T>(T itemToDelete) where T : BaseModel, new();
 
-        void DeleteById<T>(int id) where T : new();
+        bool DeleteById<T>(int id) where T : BaseModel, new();
 
         #endregion sync CRUD
     }

@@ -1,4 +1,5 @@
 ﻿using SelfHostedWebApi.HostConfig;
+using SelfHostedWebApi.Model;
 using System;
 using System.Text;
 
@@ -15,13 +16,49 @@ namespace SelfHostedWebApi.DataAccessLayer.Database
 
         #region Sync CRUD
 
-        public bool Create<T>(T newItem) where T : new()
+        public bool Create<T>(T newItem) where T : BaseModel, new()
         {
             string query = BuildCreateCommand<T>(newItem);
             return this.ExecuteNonQuery(query) == 1;
         }
+        public bool Delete<T>(T itemToDelete) where T : BaseModel, new()
+        {
+            return DeleteById<T>(itemToDelete.Id);
+        }
 
-        private string BuildCreateCommand<T>(T newItem) where T : new()
+        public bool DeleteById<T>(int id) where T : BaseModel, new()
+        {
+            string query = BuildDeleteByIdQuery<T>(id);
+            return ExecuteNonQuery(query) == 1;
+        }
+
+        private string BuildDeleteByIdQuery<T>(int id) where T : BaseModel, new()
+        {
+            var currentType = typeof(T);
+            var tableName = currentType.Name.ToUpper();
+            string query = $"DELETE FROM {tableName} WHERE {ServerStaticValues.IdName} = {id}";
+            return query;
+        }
+
+        public bool Read<T>() where T : BaseModel, new()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool ReadById<T>(int id) where T : BaseModel, new()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Update<T>(T updatedItem) where T : BaseModel, new()
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion Sync CRUD
+
+        #region Command builders
+        private string BuildCreateCommand<T>(T newItem) where T : BaseModel, new()
         {
             if (newItem == null)
             {
@@ -40,7 +77,7 @@ namespace SelfHostedWebApi.DataAccessLayer.Database
                 var currentValue = property.GetValue(newItem).ToString();
                 var currentName = property.Name;
 
-                if (!ServerStaticValues.IDsNames.Contains(currentName.ToUpper()))
+                if (!ServerStaticValues.IdName.Contains(currentName.ToUpper()))
                 {
                     if (property.PropertyType == typeof(string))
                     {
@@ -67,32 +104,8 @@ namespace SelfHostedWebApi.DataAccessLayer.Database
             return result;
         }
 
-        public void Delete<T>(T itemToDelete) where T : new()
-        {
-            throw new NotImplementedException();
-        }
 
-        public void DeleteById<T>(int id) where T : new()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Read<T>() where T : new()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void ReadById<T>(int id) where T : new()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Update<T>(T updatedItem) where T : new()
-        {
-            throw new NotImplementedException();
-        }
-
-        #endregion Sync CRUD
+        #endregion
 
         private int ExecuteNonQuery(string query)
         {
