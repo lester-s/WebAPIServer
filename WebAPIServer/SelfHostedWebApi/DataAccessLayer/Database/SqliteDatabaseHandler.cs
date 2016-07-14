@@ -60,6 +60,10 @@ namespace SelfHostedWebApi.DataAccessLayer.Database
 
         private string BuildReadByIdCommand<T>(int id) where T : BaseModel, new()
         {
+            if(id <= 0)
+            {
+                throw new ArgumentException(nameof(id), "Id must be > 0");
+            }
             var baseQuery = BuildReadCommand<T>();
             baseQuery.TrimEnd(';');
             baseQuery += $" WHERE {ServerStaticValues.IdName} = {id};";
@@ -75,6 +79,10 @@ namespace SelfHostedWebApi.DataAccessLayer.Database
 
         private string BuildDeleteByIdQuery<T>(int id) where T : BaseModel, new()
         {
+            if (id <= 0)
+            {
+                throw new ArgumentException(nameof(id), "Id must be > 0");
+            }
             var currentType = typeof(T);
             var tableName = currentType.Name.ToUpper();
             string query = $"DELETE FROM {tableName} WHERE {ServerStaticValues.IdName} = {id}";
@@ -131,6 +139,11 @@ namespace SelfHostedWebApi.DataAccessLayer.Database
 
         private int ExecuteNonQuery(string query)
         {
+            if(string.IsNullOrWhiteSpace(query))
+            {
+                throw new ArgumentNullException(nameof(query), "Query is missing");
+            }
+
             var conn = System.Data.SQLite.Linq.SQLiteProviderFactory.Instance.CreateConnection();
             conn.ConnectionString = dbConnection;
             try
@@ -185,6 +198,11 @@ namespace SelfHostedWebApi.DataAccessLayer.Database
 
         private List<T> ExecuteTableRead<T>(string query) where T : BaseModel, new()
         {
+            if (string.IsNullOrWhiteSpace(query))
+            {
+                throw new ArgumentNullException(nameof(query), "Query must not be null or empty");
+            }
+
             var conn = System.Data.SQLite.Linq.SQLiteProviderFactory.Instance.CreateConnection();
             conn.ConnectionString = dbConnection;
             try
@@ -213,6 +231,11 @@ namespace SelfHostedWebApi.DataAccessLayer.Database
 
         private List<T> ParseDataTableToItems<T>(DataTable dataTable) where T : BaseModel, new()
         {
+            if (dataTable == null)
+            {
+                throw new ArgumentNullException(nameof(dataTable), "There is no table to parse");
+            }
+
             var properties = typeof(T).GetProperties();
             List<string> propertiesNames = new List<string>();
             List<T> result = new List<T>();
