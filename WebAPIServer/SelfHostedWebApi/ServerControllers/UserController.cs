@@ -58,5 +58,13 @@ namespace SelfHostedWebApi.ServerControllers
             var bll = new UserBLL();
             return bll.DeleteUserById(id);
         }
+
+        [HttpPost]
+        [ActionName("UpdateUser")]
+        public bool UpdateUser(User userToUpdate)
+        {
+            var bll = new UserBLL();
+            return bll.UpdateUser(userToUpdate);
+        }
     }
 }

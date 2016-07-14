@@ -51,7 +51,44 @@ namespace SelfHostedWebApi.DataAccessLayer.Database
 
         public bool Update<T>(T updatedItem) where T : BaseModel, new()
         {
-            throw new NotImplementedException();
+            string query = BuildUpdateCommand<T>(updatedItem);
+            return ExecuteNonQuery(query) == 1;
+        }
+
+        private string BuildUpdateCommand<T>(T updatedItem) where T : BaseModel, new()
+        {
+            if (updatedItem == null || updatedItem.Id <= 0)
+            {
+                throw new ArgumentException(nameof(updatedItem), "the item to update is wrong.");
+            }
+
+            var tableName = typeof(T).Name.ToUpper();
+            var properties = typeof(T).GetProperties();
+            StringBuilder stringBuilder = new StringBuilder();
+
+            var i = 0;
+            foreach (var property in properties)
+            {
+                stringBuilder.Append(property.Name.ToUpper() + " = ");
+
+                if (property.PropertyType == typeof(string))
+                {
+                    stringBuilder.Append("'" + property.GetValue(updatedItem) + "'");
+                }
+                else
+                {
+                    stringBuilder.Append(property.GetValue(updatedItem));
+                }
+
+                if (i < properties.Length - 1)
+                {
+                    stringBuilder.Append(", ");
+                }
+
+                i++;
+            }
+            var query = $"UPDATE {tableName} SET {stringBuilder.ToString()} WHERE {ServerStaticValues.IdName} = {updatedItem.Id};";
+            return query;
         }
 
         #endregion Sync CRUD
@@ -60,7 +97,7 @@ namespace SelfHostedWebApi.DataAccessLayer.Database
 
         private string BuildReadByIdCommand<T>(int id) where T : BaseModel, new()
         {
-            if(id <= 0)
+            if (id <= 0)
             {
                 throw new ArgumentException(nameof(id), "Id must be > 0");
             }
@@ -139,7 +176,7 @@ namespace SelfHostedWebApi.DataAccessLayer.Database
 
         private int ExecuteNonQuery(string query)
         {
-            if(string.IsNullOrWhiteSpace(query))
+            if (string.IsNullOrWhiteSpace(query))
             {
                 throw new ArgumentNullException(nameof(query), "Query is missing");
             }

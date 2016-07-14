@@ -64,5 +64,15 @@ namespace SelfHostedWebApi.BuisnessLayer
 
             return DbHandler.DeleteById<User>(id);
         }
+
+        internal bool UpdateUser(User userToUpdate)
+        {
+            if (userToUpdate == null)
+            {
+                throw new ArgumentNullException(nameof(userToUpdate), "Argument cannot be null in UserBLL");
+            }
+
+            return DbHandler.Update<User>(userToUpdate);
+        }
     }
 }

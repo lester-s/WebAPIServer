@@ -29,7 +29,7 @@ namespace ClientApp
 
             try
             {
-                ListAllUsers();
+                UpdateUser();
             }
             catch (Exception ex)
             {
@@ -116,6 +116,21 @@ namespace ClientApp
             var userToDelete = new User("s", "s", "admin") { Id = 2 };
             var result = await client.PostAsJsonAsync<User>("api/user/DeleteUser", userToDelete);
             Console.WriteLine(result.StatusCode);
+        }
+
+        private static void UpdateUser()
+        {
+            var userToCreate = new User(userName, "s", "admin") { Id = 3 };
+
+            var resp = client.PostAsJsonAsync<User>("api/user/UpdateUser", userToCreate).Result;
+            resp.EnsureSuccessStatusCode();
+
+            var result = resp.Content.ReadAsAsync<List<User>>().Result;
+
+            foreach (var user in result)
+            {
+                Console.WriteLine($"utilisateur {user.Pseudo} est agé de x");
+            }
         }
     }
 }
