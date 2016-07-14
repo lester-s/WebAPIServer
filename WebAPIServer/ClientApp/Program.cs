@@ -29,7 +29,7 @@ namespace ClientApp
 
             try
             {
-                CreateUser();
+                ListAllUsers();
             }
             catch (Exception ex)
             {
@@ -54,7 +54,7 @@ namespace ClientApp
 
         private static void ListAllUsers()
         {
-            HttpResponseMessage resp = client.GetAsync("api/basic").Result;
+            HttpResponseMessage resp = client.GetAsync("api/user/GetAlluser").Result;
             resp.EnsureSuccessStatusCode();
 
             var products = resp.Content.ReadAsAsync<IEnumerable<User>>().Result;

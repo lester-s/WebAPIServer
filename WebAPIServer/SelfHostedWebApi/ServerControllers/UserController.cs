@@ -37,7 +37,7 @@ namespace SelfHostedWebApi.ServerControllers
 
         [HttpPost]
         [ActionName("CreateUser")]
-        public bool CreateUser(User userToCreate)
+        public User CreateUser(User userToCreate)
         {
             var bll = new UserBLL();
             return bll.CreateUser(userToCreate);

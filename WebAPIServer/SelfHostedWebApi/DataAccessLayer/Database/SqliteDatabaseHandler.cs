@@ -1,6 +1,8 @@
 ﻿using SelfHostedWebApi.HostConfig;
 using SelfHostedWebApi.Model;
 using System;
+using System.Collections.Generic;
+using System.Data;
 using System.Text;
 
 namespace SelfHostedWebApi.DataAccessLayer.Database
@@ -35,14 +37,16 @@ namespace SelfHostedWebApi.DataAccessLayer.Database
             return ExecuteNonQuery(query) == 1;
         }
 
-        public bool Read<T>() where T : BaseModel, new()
+        public List<T> Read<T>() where T : BaseModel, new()
         {
-            throw new NotImplementedException();
+            string query = BuildReadCommand<T>();
+            return this.ExecuteTableRead<T>(query);
         }
 
-        public bool ReadById<T>(int id) where T : BaseModel, new()
+        public T ReadById<T>(int id) where T : BaseModel, new()
         {
-            throw new NotImplementedException();
+            string query = BuildReadByIdCommand<T>(id);
+            return ExecuteTableRead<T>(query)[0];
         }
 
         public bool Update<T>(T updatedItem) where T : BaseModel, new()
@@ -53,6 +57,21 @@ namespace SelfHostedWebApi.DataAccessLayer.Database
         #endregion Sync CRUD
 
         #region Command builders
+
+        private string BuildReadByIdCommand<T>(int id) where T : BaseModel, new()
+        {
+            var baseQuery = BuildReadCommand<T>();
+            baseQuery.TrimEnd(';');
+            baseQuery += $" WHERE {ServerStaticValues.IdName} = {id};";
+            return baseQuery;
+        }
+
+        private string BuildReadCommand<T>() where T : BaseModel, new()
+        {
+            var tableName = typeof(T).Name;
+            var query = $"SELECT * FROM {tableName};";
+            return query;
+        }
 
         private string BuildDeleteByIdQuery<T>(int id) where T : BaseModel, new()
         {
@@ -162,6 +181,60 @@ namespace SelfHostedWebApi.DataAccessLayer.Database
             }
 
             return 0;
+        }
+
+        private List<T> ExecuteTableRead<T>(string query) where T : BaseModel, new()
+        {
+            var conn = System.Data.SQLite.Linq.SQLiteProviderFactory.Instance.CreateConnection();
+            conn.ConnectionString = dbConnection;
+            try
+            {
+                conn.Open();
+                var cmd = conn.CreateCommand();
+                cmd.CommandText = query;
+                var reader = cmd.ExecuteReader();
+                DataTable dataTable = new DataTable();
+                dataTable.Load(reader);
+                reader.Close();
+                List<T> tableItems = ParseDataTableToItems<T>(dataTable);
+                return tableItems;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            return null;
+        }
+
+        private List<T> ParseDataTableToItems<T>(DataTable dataTable) where T : BaseModel, new()
+        {
+            var properties = typeof(T).GetProperties();
+            List<string> propertiesNames = new List<string>();
+            List<T> result = new List<T>();
+
+            foreach (DataRow row in dataTable.Rows)
+            {
+                T newItem = new T();
+                foreach (var property in properties)
+                {
+                    var propertyValue = row[property.Name.ToUpper()];
+                    if (propertyValue.GetType() == typeof(Int64))
+                    {
+                        var int32propertyValue = Convert.ToInt32(propertyValue);
+                        property.SetValue(newItem, int32propertyValue);
+                        continue;
+                    }
+                    property.SetValue(newItem, propertyValue);
+                }
+                result.Add(newItem);
+            }
+
+            return result;
         }
     }
 }

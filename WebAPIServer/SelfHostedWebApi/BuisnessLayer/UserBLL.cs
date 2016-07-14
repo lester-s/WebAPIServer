@@ -32,10 +32,10 @@ namespace SelfHostedWebApi.BuisnessLayer
 
         public List<User> GetAllUsers()
         {
-            return AppHandler.Instance.users;
+            return DbHandler.Read<User>();
         }
 
-        internal bool CreateUser(User userToCreate)
+        internal User CreateUser(User userToCreate)
         {
             if (userToCreate == null)
             {
