@@ -10,6 +10,7 @@ namespace ClientApp
     internal class Program
     {
         private static HttpClient client = new HttpClient();
+        private static string userName = string.Empty;
 
         private static void Main(string[] args)
         {
@@ -20,7 +21,7 @@ namespace ClientApp
         private static void AskCredentials()
         {
             Console.WriteLine("Username:");
-            var userName = Console.ReadLine();
+            userName = Console.ReadLine();
 
             Console.WriteLine("Password:");
             var password = Console.ReadLine();
@@ -28,7 +29,7 @@ namespace ClientApp
 
             try
             {
-                DeleteUser();
+                CreateUser();
             }
             catch (Exception ex)
             {
@@ -97,7 +98,9 @@ namespace ClientApp
 
         private static void CreateUser()
         {
-            var resp = client.GetAsync("api/user/CreateUser").Result;
+            var userToCreate = new User(userName, "s", "admin") { Id = 2 };
+
+            var resp = client.PostAsJsonAsync<User>("api/user/CreateUser", userToCreate).Result;
             resp.EnsureSuccessStatusCode();
 
             var result = resp.Content.ReadAsAsync<List<User>>().Result;

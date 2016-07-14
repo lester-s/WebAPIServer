@@ -1,6 +1,6 @@
 ﻿namespace SelfHostedWebApi.Model
 {
-    public class User: BaseModel
+    public class User : BaseModel
     {
         public User(string name, string password, string role)
         {

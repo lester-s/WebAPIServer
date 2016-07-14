@@ -6,7 +6,7 @@ namespace SelfHostedWebApi.DataAccessLayer.Database
     {
         #region sync CRUD
 
-        bool Create<T>(T newItem) where T : BaseModel, new();
+        T Create<T>(T newItem) where T : BaseModel, new();
 
         bool Read<T>() where T : BaseModel, new();
 

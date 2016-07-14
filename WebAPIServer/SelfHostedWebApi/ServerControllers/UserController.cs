@@ -35,12 +35,12 @@ namespace SelfHostedWebApi.ServerControllers
             return bll.GetAllUsers();
         }
 
-        [HttpGet]
+        [HttpPost]
         [ActionName("CreateUser")]
-        public bool CreateUser()
+        public bool CreateUser(User userToCreate)
         {
             var bll = new UserBLL();
-            return bll.CreateUser();
+            return bll.CreateUser(userToCreate);
         }
 
         [HttpPost]
@@ -49,6 +49,14 @@ namespace SelfHostedWebApi.ServerControllers
         {
             var bll = new UserBLL();
             return bll.DeleteUser(userToDelete);
+        }
+
+        [HttpGet]
+        [ActionName("DeleteUserById")]
+        public bool DeleteUserById(int id)
+        {
+            var bll = new UserBLL();
+            return bll.DeleteUserById(id);
         }
     }
 }

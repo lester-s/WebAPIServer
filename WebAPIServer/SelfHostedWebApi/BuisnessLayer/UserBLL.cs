@@ -35,25 +35,34 @@ namespace SelfHostedWebApi.BuisnessLayer
             return AppHandler.Instance.users;
         }
 
-        internal bool CreateUser()
+        internal bool CreateUser(User userToCreate)
         {
-            var newUser = new User("s", "s", "admin");
-            if (newUser == null)
+            if (userToCreate == null)
             {
-                throw new ArgumentNullException(nameof(newUser), "Argument cannot be null in UserBLL");
+                throw new ArgumentNullException(nameof(userToCreate), "Argument cannot be null in UserBLL");
             }
 
-            return DbHandler.Create<User>(newUser);
+            return DbHandler.Create<User>(userToCreate);
         }
 
         internal bool DeleteUser(User userToDelete)
         {
-            if(userToDelete == null || userToDelete.Id <= 0)
+            if (userToDelete == null || userToDelete.Id <= 0)
             {
                 throw new ArgumentException(nameof(userToDelete), "User needed for delete");
             }
 
             return DbHandler.Delete<User>(userToDelete);
+        }
+
+        internal bool DeleteUserById(int id)
+        {
+            if (id <= 0)
+            {
+                throw new ArgumentException(nameof(id), "Id must be > 0");
+            }
+
+            return DbHandler.DeleteById<User>(id);
         }
     }
 }

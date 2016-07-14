@@ -16,11 +16,14 @@ namespace SelfHostedWebApi.DataAccessLayer.Database
 
         #region Sync CRUD
 
-        public bool Create<T>(T newItem) where T : BaseModel, new()
+        public T Create<T>(T newItem) where T : BaseModel, new()
         {
             string query = BuildCreateCommand<T>(newItem);
-            return this.ExecuteNonQuery(query) == 1;
+            var id = this.ExecuteScalar(query);
+            newItem.Id = id;
+            return newItem;
         }
+
         public bool Delete<T>(T itemToDelete) where T : BaseModel, new()
         {
             return DeleteById<T>(itemToDelete.Id);
@@ -30,14 +33,6 @@ namespace SelfHostedWebApi.DataAccessLayer.Database
         {
             string query = BuildDeleteByIdQuery<T>(id);
             return ExecuteNonQuery(query) == 1;
-        }
-
-        private string BuildDeleteByIdQuery<T>(int id) where T : BaseModel, new()
-        {
-            var currentType = typeof(T);
-            var tableName = currentType.Name.ToUpper();
-            string query = $"DELETE FROM {tableName} WHERE {ServerStaticValues.IdName} = {id}";
-            return query;
         }
 
         public bool Read<T>() where T : BaseModel, new()
@@ -58,6 +53,15 @@ namespace SelfHostedWebApi.DataAccessLayer.Database
         #endregion Sync CRUD
 
         #region Command builders
+
+        private string BuildDeleteByIdQuery<T>(int id) where T : BaseModel, new()
+        {
+            var currentType = typeof(T);
+            var tableName = currentType.Name.ToUpper();
+            string query = $"DELETE FROM {tableName} WHERE {ServerStaticValues.IdName} = {id}";
+            return query;
+        }
+
         private string BuildCreateCommand<T>(T newItem) where T : BaseModel, new()
         {
             if (newItem == null)
@@ -68,7 +72,7 @@ namespace SelfHostedWebApi.DataAccessLayer.Database
             StringBuilder namesBuilder = new StringBuilder();
             StringBuilder valuesBuilder = new StringBuilder();
 
-            var tableName = newItem.GetType().Name;
+            var tableName = newItem.GetType().Name.ToUpper();
 
             var properties = newItem.GetType().GetProperties();
             var i = 0;
@@ -90,7 +94,7 @@ namespace SelfHostedWebApi.DataAccessLayer.Database
                         valuesBuilder.Append(currentValue);
                     }
 
-                    if (i < properties.Length - 1)
+                    if (i < properties.Length - 2)
                     {
                         namesBuilder.Append(", ");
                         valuesBuilder.Append(", ");
@@ -104,11 +108,39 @@ namespace SelfHostedWebApi.DataAccessLayer.Database
             return result;
         }
 
-
-        #endregion
+        #endregion Command builders
 
         private int ExecuteNonQuery(string query)
         {
+            var conn = System.Data.SQLite.Linq.SQLiteProviderFactory.Instance.CreateConnection();
+            conn.ConnectionString = dbConnection;
+            try
+            {
+                conn.Open();
+                var cmd = conn.CreateCommand();
+                cmd.CommandText = query;
+                return cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            return 0;
+        }
+
+        private int ExecuteScalar(string query)
+        {
+            if (string.IsNullOrWhiteSpace(query))
+            {
+                throw new ArgumentNullException(nameof(query), "Query must not be null or empty");
+            }
+
+            query += " select last_insert_rowid()";
             var conn = System.Data.SQLite.Linq.SQLiteProviderFactory.Instance.CreateConnection();
             conn.ConnectionString = dbConnection;
 
@@ -117,7 +149,8 @@ namespace SelfHostedWebApi.DataAccessLayer.Database
                 conn.Open();
                 var cmd = conn.CreateCommand();
                 cmd.CommandText = query;
-                return cmd.ExecuteNonQuery();
+                var result = cmd.ExecuteScalar();
+                return (int)result;
             }
             catch (Exception ex)
             {

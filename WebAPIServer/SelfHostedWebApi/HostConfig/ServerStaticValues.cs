@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace SelfHostedWebApi.HostConfig
+﻿namespace SelfHostedWebApi.HostConfig
 {
     public class ServerStaticValues
     {
