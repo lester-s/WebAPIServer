@@ -14,17 +14,17 @@ namespace SelfHostedWebApi.ServerControllers
         public HttpResponseMessage ConnectUser(User userToConnect)
         {
             var bll = new UserBLL();
-            return ControllerContext.Request.CreateResponse(System.Net.HttpStatusCode.Accepted, bll.ConnectUser(userToConnect));
+            return ControllerContext.Request.CreateResponse(System.Net.HttpStatusCode.OK, bll.ConnectUser(userToConnect));
         }
 
         [HttpGet]
         [OverrideAuthorization]
         [ServerAuthorizationFilter(Role = ServerStaticValues.AppRole.reader)]
         [ActionName("GetConnecteduser")]
-        public List<User> GetConnecteduser()
+        public HttpResponseMessage GetConnecteduser()
         {
             var bll = new UserBLL();
-            return bll.GetConnectedUsers();
+            return ControllerContext.Request.CreateResponse<List<User>>(bll.GetConnectedUsers());
         }
 
         [HttpGet]

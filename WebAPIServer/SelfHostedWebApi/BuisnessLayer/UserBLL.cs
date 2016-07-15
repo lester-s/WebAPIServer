@@ -67,6 +67,7 @@ namespace SelfHostedWebApi.BuisnessLayer
 
         internal bool UpdateUser(User userToUpdate)
         {
+            throw new Exception("ma super exception");
             if (userToUpdate == null)
             {
                 throw new ArgumentNullException(nameof(userToUpdate), "Argument cannot be null in UserBLL");

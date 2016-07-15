@@ -108,6 +108,7 @@
     <Compile Include="DataAccessLayer\Database\IDatabaseHandler.cs" />
     <Compile Include="HostConfig\AuthenticationMessageHandler.cs" />
     <Compile Include="HostConfig\BasicAuthenticationIdentity.cs" />
+    <Compile Include="HostConfig\ExceptionsHandling\CustomExceptionHandler.cs" />
     <Compile Include="HostConfig\ServerAuthorizationFilter.cs" />
     <Compile Include="HostConfig\ServerStaticValues.cs" />
     <Compile Include="Model\BaseModel.cs" />
