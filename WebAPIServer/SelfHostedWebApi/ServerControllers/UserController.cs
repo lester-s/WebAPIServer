@@ -2,6 +2,7 @@
 using SelfHostedWebApi.HostConfig;
 using SelfHostedWebApi.Model;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 
@@ -14,7 +15,7 @@ namespace SelfHostedWebApi.ServerControllers
         public HttpResponseMessage ConnectUser(User userToConnect)
         {
             var bll = new UserBLL();
-            return ControllerContext.Request.CreateResponse(System.Net.HttpStatusCode.OK, bll.ConnectUser(userToConnect));
+            return ControllerContext.Request.CreateResponse(HttpStatusCode.OK, bll.ConnectUser(userToConnect));
         }
 
         [HttpGet]
@@ -24,47 +25,48 @@ namespace SelfHostedWebApi.ServerControllers
         public HttpResponseMessage GetConnecteduser()
         {
             var bll = new UserBLL();
-            return ControllerContext.Request.CreateResponse<List<User>>(bll.GetConnectedUsers());
+            return ControllerContext.Request.CreateResponse<List<User>>(HttpStatusCode.OK,bll.GetConnectedUsers());
         }
 
         [HttpGet]
         [ActionName("GetAlluser")]
-        public List<User> GetAlluser()
+        public HttpResponseMessage GetAlluser()
         {
             var bll = new UserBLL();
-            return bll.GetAllUsers();
+            return ControllerContext.Request.CreateResponse<List<User>>(HttpStatusCode.OK, bll.GetAllUsers());
         }
 
         [HttpPost]
         [ActionName("CreateUser")]
-        public User CreateUser(User userToCreate)
+        public HttpResponseMessage CreateUser(User userToCreate)
         {
             var bll = new UserBLL();
-            return bll.CreateUser(userToCreate);
+            return ControllerContext.Request.CreateResponse<User>(HttpStatusCode.OK, bll.CreateUser(userToCreate));
+
         }
 
         [HttpPost]
         [ActionName("DeleteUser")]
-        public bool DeleteUser(User userToDelete)
+        public HttpResponseMessage DeleteUser(User userToDelete)
         {
             var bll = new UserBLL();
-            return bll.DeleteUser(userToDelete);
+            return ControllerContext.Request.CreateResponse<bool>(HttpStatusCode.OK, bll.DeleteUser(userToDelete));
         }
 
         [HttpGet]
         [ActionName("DeleteUserById")]
-        public bool DeleteUserById(int id)
+        public HttpResponseMessage DeleteUserById(int id)
         {
             var bll = new UserBLL();
-            return bll.DeleteUserById(id);
+            return ControllerContext.Request.CreateResponse<bool>(HttpStatusCode.OK, bll.DeleteUserById(id));
         }
 
         [HttpPost]
         [ActionName("UpdateUser")]
-        public bool UpdateUser(User userToUpdate)
+        public HttpResponseMessage UpdateUser(User userToUpdate)
         {
             var bll = new UserBLL();
-            return bll.UpdateUser(userToUpdate);
+            return ControllerContext.Request.CreateResponse<bool>(HttpStatusCode.OK, bll.UpdateUser(userToUpdate));
         }
     }
 }
