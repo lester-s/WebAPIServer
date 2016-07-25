@@ -66,7 +66,9 @@ namespace SelfHostedWebApi.ServerControllers
         public HttpResponseMessage UpdateUser(User userToUpdate)
         {
             var bll = new UserBLL();
-            return ControllerContext.Request.CreateResponse<bool>(HttpStatusCode.OK, bll.UpdateUser(userToUpdate));
+            var result = bll.UpdateUser(userToUpdate);
+            return ControllerContext.Request.CreateResponse<bool>(HttpStatusCode.OK, result);
+            //return ControllerContext.Request.CreateResponse<bool>(HttpStatusCode.OK, bll.UpdateUser(userToUpdate));
         }
     }
 }

@@ -120,7 +120,7 @@ namespace ClientApp
 
         private static void UpdateUser()
         {
-            var userToCreate = new User(userName, "s", "admin") { Id = 3 };
+            var userToCreate = new User(userName, "s", "admin") { Id = 8 };
 
             var resp = client.PostAsJsonAsync<User>("api/user/UpdateUser", userToCreate).Result;
             //resp.EnsureSuccessStatusCode();
@@ -131,12 +131,8 @@ namespace ClientApp
                 Console.WriteLine(error);
                 return;
             }
-            var result = resp.Content.ReadAsAsync<List<User>>().Result;
-
-            foreach (var user in result)
-            {
-                Console.WriteLine($"utilisateur {user.Pseudo} est agé de x");
-            }
+            var result = resp.Content.ReadAsAsync<bool>().Result;
+            Console.WriteLine(result);
         }
     }
 }
