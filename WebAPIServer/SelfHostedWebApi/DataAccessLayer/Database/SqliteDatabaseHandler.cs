@@ -1,4 +1,5 @@
-﻿using SelfHostedWebApi.HostConfig;
+﻿using SelfHostedWebApi.BuisnessLayer;
+using SelfHostedWebApi.HostConfig;
 using SelfHostedWebApi.Model;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,7 @@ namespace SelfHostedWebApi.DataAccessLayer.Database
 
         public SqliteDatabaseHandler()
         {
-            dbConnection = @"Data Source = D:\Projects\WebAPIServer\WebAPIServer\SelfHostedWebApi\DataAccessLayer\Database\ServerDatabase.s3db";
+            dbConnection = @"Data Source = " + AppHandler.Instance.Settings.DatabaseUrl;
         }
 
         #region Sync CRUD

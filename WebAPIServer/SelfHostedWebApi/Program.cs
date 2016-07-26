@@ -20,18 +20,7 @@ namespace SelfHostedWebApi
                 constraints: null
                 );
 
-            bool parseValue = true;
-
-            if (args.Length > 0)
-            {
-                var parseResult = bool.TryParse(args[0], out parseValue);
-
-                parseValue = parseResult ? parseValue : true;
-            }
-
-            AppHandler.Instance.IsAuthenticationActive = parseValue;
-
-            if (AppHandler.Instance.IsAuthenticationActive)
+            if (AppHandler.Instance.Settings.IsAuthActivated)
             {
                 config.MessageHandlers.Add(new AuthenticationMessageHandler());
                 config.Filters.Add(new ServerAuthorizationFilter() { Role = ServerStaticValues.AppRole.Admin });

@@ -25,7 +25,7 @@ namespace SelfHostedWebApi.ServerControllers
         public HttpResponseMessage GetConnecteduser()
         {
             var bll = new UserBLL();
-            return ControllerContext.Request.CreateResponse<List<User>>(HttpStatusCode.OK,bll.GetConnectedUsers());
+            return ControllerContext.Request.CreateResponse<List<User>>(HttpStatusCode.OK, bll.GetConnectedUsers());
         }
 
         [HttpGet]
@@ -42,7 +42,6 @@ namespace SelfHostedWebApi.ServerControllers
         {
             var bll = new UserBLL();
             return ControllerContext.Request.CreateResponse<User>(HttpStatusCode.OK, bll.CreateUser(userToCreate));
-
         }
 
         [HttpPost]

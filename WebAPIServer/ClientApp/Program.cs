@@ -120,7 +120,7 @@ namespace ClientApp
 
         private static void UpdateUser()
         {
-            var userToCreate = new User(userName, "s", "admin") { Id = 8 };
+            var userToCreate = new User(userName, "s", "admin") { Id = 3 };
 
             var resp = client.PostAsJsonAsync<User>("api/user/UpdateUser", userToCreate).Result;
             //resp.EnsureSuccessStatusCode();

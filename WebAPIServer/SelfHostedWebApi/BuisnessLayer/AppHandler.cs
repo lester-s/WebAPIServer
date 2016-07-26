@@ -1,4 +1,5 @@
-﻿using SelfHostedWebApi.Model;
+﻿using SelfHostedWebApi.HostConfig.Settings;
+using SelfHostedWebApi.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,13 @@ namespace SelfHostedWebApi.BuisnessLayer
             new User("simon28", "123", "reader")
         };
 
-        public bool IsAuthenticationActive { get; set; } = true;
+        public bool IsAuthenticationActive
+        {
+            get
+            {
+                return Settings.IsAuthActivated;
+            }
+        }
 
         private static AppHandler instance;
 
@@ -24,7 +31,9 @@ namespace SelfHostedWebApi.BuisnessLayer
             {
                 if (instance == null)
                 {
+                    ServerSettings settings = FileToJsonHelper.ReadJsonFile<ServerSettings>("serverSettings.txt");
                     instance = new AppHandler();
+                    instance.Settings = settings;
                 }
                 return instance;
             }
@@ -84,5 +93,7 @@ namespace SelfHostedWebApi.BuisnessLayer
                 ConnectUser(user);
             }
         }
+
+        public ServerSettings Settings { get; private set; }
     }
 }

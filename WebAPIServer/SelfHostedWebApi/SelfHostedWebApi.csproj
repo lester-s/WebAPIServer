@@ -111,6 +111,8 @@
     <Compile Include="HostConfig\ExceptionsHandling\CustomExceptionHandler.cs" />
     <Compile Include="HostConfig\ServerAuthorizationFilter.cs" />
     <Compile Include="HostConfig\ServerStaticValues.cs" />
+    <Compile Include="HostConfig\Settings\FileToJsonReader.cs" />
+    <Compile Include="HostConfig\Settings\ServerSettings.cs" />
     <Compile Include="Model\BaseModel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
