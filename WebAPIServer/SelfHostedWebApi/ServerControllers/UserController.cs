@@ -1,4 +1,6 @@
 ﻿using SelfHostedWebApi.BuisnessLayer;
+using SelfHostedWebApi.DataAccessLayer;
+using SelfHostedWebApi.DataAccessLayer.Database;
 using SelfHostedWebApi.HostConfig;
 using SelfHostedWebApi.Model;
 using System.Collections.Generic;
@@ -10,11 +12,11 @@ namespace SelfHostedWebApi.ServerControllers
 {
     public class UserController : ApiController
     {
+        UserBLL bll = new UserBLL(new UserDal(new SqliteBaseDal()));
         [HttpGet]
         [ActionName("ConnectUser")]
         public HttpResponseMessage ConnectUser(User userToConnect)
         {
-            var bll = new UserBLL();
             return ControllerContext.Request.CreateResponse(HttpStatusCode.OK, bll.ConnectUser(userToConnect));
         }
 
@@ -24,7 +26,6 @@ namespace SelfHostedWebApi.ServerControllers
         [ActionName("GetConnecteduser")]
         public HttpResponseMessage GetConnecteduser()
         {
-            var bll = new UserBLL();
             return ControllerContext.Request.CreateResponse<List<User>>(HttpStatusCode.OK, bll.GetConnectedUsers());
         }
 
@@ -32,7 +33,6 @@ namespace SelfHostedWebApi.ServerControllers
         [ActionName("GetAlluser")]
         public HttpResponseMessage GetAlluser()
         {
-            var bll = new UserBLL();
             return ControllerContext.Request.CreateResponse<List<User>>(HttpStatusCode.OK, bll.GetAllUsers());
         }
 
@@ -40,7 +40,6 @@ namespace SelfHostedWebApi.ServerControllers
         [ActionName("CreateUser")]
         public HttpResponseMessage CreateUser(User userToCreate)
         {
-            var bll = new UserBLL();
             return ControllerContext.Request.CreateResponse<User>(HttpStatusCode.OK, bll.CreateUser(userToCreate));
         }
 
@@ -48,7 +47,6 @@ namespace SelfHostedWebApi.ServerControllers
         [ActionName("DeleteUser")]
         public HttpResponseMessage DeleteUser(User userToDelete)
         {
-            var bll = new UserBLL();
             return ControllerContext.Request.CreateResponse<bool>(HttpStatusCode.OK, bll.DeleteUser(userToDelete));
         }
 
@@ -56,7 +54,6 @@ namespace SelfHostedWebApi.ServerControllers
         [ActionName("DeleteUserById")]
         public HttpResponseMessage DeleteUserById(int id)
         {
-            var bll = new UserBLL();
             return ControllerContext.Request.CreateResponse<bool>(HttpStatusCode.OK, bll.DeleteUserById(id));
         }
 
@@ -64,10 +61,7 @@ namespace SelfHostedWebApi.ServerControllers
         [ActionName("UpdateUser")]
         public HttpResponseMessage UpdateUser(User userToUpdate)
         {
-            var bll = new UserBLL();
-            var result = bll.UpdateUser(userToUpdate);
-            return ControllerContext.Request.CreateResponse<bool>(HttpStatusCode.OK, result);
-            //return ControllerContext.Request.CreateResponse<bool>(HttpStatusCode.OK, bll.UpdateUser(userToUpdate));
+            return ControllerContext.Request.CreateResponse<bool>(HttpStatusCode.OK, bll.UpdateUser(userToUpdate));
         }
     }
 }

@@ -86,7 +86,7 @@ namespace SelfHostedWebApi.HostConfig
                 throw new ArgumentException(nameof(tokens), "One argument is wrong in ValidateAuthenticationData");
             }
 
-            var userExist = AppHandler.Instance.users.Where(u => u.Pseudo == tokens[0] && u.Password == tokens[1]).FirstOrDefault();
+            var userExist = AppHandler.Instance.UserExist(tokens[0], tokens[1]);
 
             return userExist != null ? MyHelper.AuthorizationHelper.GetRoleFromString(userExist.Role) : ServerStaticValues.AppRole.nothing;
         }

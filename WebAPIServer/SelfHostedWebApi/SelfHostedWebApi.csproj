@@ -101,11 +101,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BuisnessLayer\AppHandler.cs" />
-    <Compile Include="BuisnessLayer\BaseBLL.cs" />
     <Compile Include="BuisnessLayer\MyHelper.cs" />
     <Compile Include="BuisnessLayer\UserBLL.cs" />
-    <Compile Include="DataAccessLayer\Database\SqliteDatabaseHandler.cs" />
+    <Compile Include="DataAccessLayer\Database\SqliteBaseDal.cs" />
     <Compile Include="DataAccessLayer\Database\IDatabaseHandler.cs" />
+    <Compile Include="DataAccessLayer\User\UserDal.cs" />
+    <Compile Include="DataAccessLayer\User\IUserDal.cs" />
     <Compile Include="HostConfig\AuthenticationMessageHandler.cs" />
     <Compile Include="HostConfig\BasicAuthenticationIdentity.cs" />
     <Compile Include="HostConfig\ExceptionsHandling\CustomExceptionHandler.cs" />

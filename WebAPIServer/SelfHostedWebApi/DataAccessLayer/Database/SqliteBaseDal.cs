@@ -8,11 +8,11 @@ using System.Text;
 
 namespace SelfHostedWebApi.DataAccessLayer.Database
 {
-    public class SqliteDatabaseHandler : IDatabaseHandler
+    public class SqliteBaseDal : IDatabaseHandler
     {
         private string dbConnection;
 
-        public SqliteDatabaseHandler()
+        public SqliteBaseDal()
         {
             dbConnection = @"Data Source = " + AppHandler.Instance.Settings.DatabaseUrl;
         }
@@ -175,7 +175,7 @@ namespace SelfHostedWebApi.DataAccessLayer.Database
 
         #endregion Command builders
 
-        private int ExecuteNonQuery(string query)
+        public int ExecuteNonQuery(string query)
         {
             if (string.IsNullOrWhiteSpace(query))
             {
@@ -203,7 +203,7 @@ namespace SelfHostedWebApi.DataAccessLayer.Database
             return 0;
         }
 
-        private int ExecuteScalar(string query)
+        public int ExecuteScalar(string query)
         {
             if (string.IsNullOrWhiteSpace(query))
             {
@@ -234,7 +234,7 @@ namespace SelfHostedWebApi.DataAccessLayer.Database
             return 0;
         }
 
-        private List<T> ExecuteTableRead<T>(string query) where T : BaseModel, new()
+        public List<T> ExecuteTableRead<T>(string query) where T : BaseModel, new()
         {
             if (string.IsNullOrWhiteSpace(query))
             {

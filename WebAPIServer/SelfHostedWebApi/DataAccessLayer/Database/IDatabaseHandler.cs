@@ -20,5 +20,11 @@ namespace SelfHostedWebApi.DataAccessLayer.Database
         bool DeleteById<T>(int id) where T : BaseModel, new();
 
         #endregion sync CRUD
+
+        int ExecuteNonQuery(string query);
+
+        int ExecuteScalar(string query);
+
+        List<T> ExecuteTableRead<T>(string query) where T : BaseModel, new();
     }
 }

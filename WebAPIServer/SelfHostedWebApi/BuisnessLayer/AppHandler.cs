@@ -1,4 +1,6 @@
-﻿using SelfHostedWebApi.HostConfig.Settings;
+﻿using SelfHostedWebApi.DataAccessLayer;
+using SelfHostedWebApi.DataAccessLayer.Database;
+using SelfHostedWebApi.HostConfig.Settings;
 using SelfHostedWebApi.Model;
 using System;
 using System.Collections.Generic;
@@ -95,5 +97,11 @@ namespace SelfHostedWebApi.BuisnessLayer
         }
 
         public ServerSettings Settings { get; private set; }
+
+        public User UserExist(string pseudo, string password)
+        {
+            var bll = new UserBLL(new UserDal(new SqliteBaseDal()));
+            return bll.UserExist(pseudo, password);
+        }
     }
 }

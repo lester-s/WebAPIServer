@@ -1,18 +1,40 @@
-﻿using SelfHostedWebApi.DataAccessLayer.Database;
+﻿using SelfHostedWebApi.DataAccessLayer;
+using SelfHostedWebApi.DataAccessLayer.Database;
+using SelfHostedWebApi.DataAccessLayer.User;
 using SelfHostedWebApi.Model;
 using System;
 using System.Collections.Generic;
 
 namespace SelfHostedWebApi.BuisnessLayer
 {
-    public class UserBLL : BaseBLL
+    public class UserBLL
     {
-        public UserBLL() : base(new SqliteDatabaseHandler())
+
+        private IUserDal dal;
+
+        public IUserDal Dal
         {
+            get
+            {
+                if (dal == null)
+                {
+                    throw new ArgumentNullException(nameof(dal), "A database handler is needed in BaseBLL");
+                }
+
+                return dal;
+            }
+            set { dal = value; }
         }
 
-        public UserBLL(IDatabaseHandler _dbHandler) : base(_dbHandler)
+        public UserBLL(IUserDal _dbHandler)
         {
+            dal = _dbHandler;
+        }
+
+
+        public UserBLL()
+        {
+            dal = new UserDal();
         }
 
         public bool ConnectUser(User userToConnect)
@@ -32,7 +54,7 @@ namespace SelfHostedWebApi.BuisnessLayer
 
         public List<User> GetAllUsers()
         {
-            return DbHandler.Read<User>();
+            return Dal.BaseDal.Read<User>();
         }
 
         internal User CreateUser(User userToCreate)
@@ -42,7 +64,7 @@ namespace SelfHostedWebApi.BuisnessLayer
                 throw new ArgumentNullException(nameof(userToCreate), "Argument cannot be null in UserBLL");
             }
 
-            return DbHandler.Create<User>(userToCreate);
+            return Dal.BaseDal.Create<User>(userToCreate);
         }
 
         internal bool DeleteUser(User userToDelete)
@@ -52,7 +74,7 @@ namespace SelfHostedWebApi.BuisnessLayer
                 throw new ArgumentException(nameof(userToDelete), "User needed for delete");
             }
 
-            return DbHandler.Delete<User>(userToDelete);
+            return Dal.BaseDal.Delete<User>(userToDelete);
         }
 
         internal bool DeleteUserById(int id)
@@ -62,7 +84,7 @@ namespace SelfHostedWebApi.BuisnessLayer
                 throw new ArgumentException(nameof(id), "Id must be > 0");
             }
 
-            return DbHandler.DeleteById<User>(id);
+            return Dal.BaseDal.DeleteById<User>(id);
         }
 
         internal bool UpdateUser(User userToUpdate)
@@ -72,7 +94,12 @@ namespace SelfHostedWebApi.BuisnessLayer
                 throw new ArgumentNullException(nameof(userToUpdate), "Argument cannot be null in UserBLL");
             }
 
-            return DbHandler.Update<User>(userToUpdate);
+            return Dal.BaseDal.Update<User>(userToUpdate);
+        }
+
+        public User UserExist(string pseudo, string password)
+        {
+            return dal.UserExist(pseudo, password);
         }
     }
 }
