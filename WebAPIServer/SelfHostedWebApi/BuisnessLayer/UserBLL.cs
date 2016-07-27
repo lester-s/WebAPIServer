@@ -95,6 +95,10 @@ namespace SelfHostedWebApi.BuisnessLayer
 
         public User UserExist(string pseudo, string password)
         {
+            if (string.IsNullOrWhiteSpace(pseudo) || string.IsNullOrWhiteSpace(password))
+            {
+                throw new ArgumentException("Missing arguments for user exists");
+            }
             return dal.UserExist(pseudo, password);
         }
     }
