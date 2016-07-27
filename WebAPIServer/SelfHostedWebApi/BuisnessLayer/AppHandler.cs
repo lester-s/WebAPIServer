@@ -1,5 +1,5 @@
-﻿using SelfHostedWebApi.DataAccessLayer;
-using SelfHostedWebApi.DataAccessLayer.Database;
+﻿using SelfHostedWebApi.DataAccessLayer.Database;
+using SelfHostedWebApi.DataAccessLayer.UserDAL;
 using SelfHostedWebApi.HostConfig.Settings;
 using SelfHostedWebApi.Model;
 using System;

@@ -1,6 +1,4 @@
-﻿using SelfHostedWebApi.DataAccessLayer;
-using SelfHostedWebApi.DataAccessLayer.Database;
-using SelfHostedWebApi.DataAccessLayer.User;
+﻿using SelfHostedWebApi.DataAccessLayer.UserDAL;
 using SelfHostedWebApi.Model;
 using System;
 using System.Collections.Generic;
@@ -9,7 +7,6 @@ namespace SelfHostedWebApi.BuisnessLayer
 {
     public class UserBLL
     {
-
         private IUserDal dal;
 
         public IUserDal Dal
@@ -30,7 +27,6 @@ namespace SelfHostedWebApi.BuisnessLayer
         {
             dal = _dbHandler;
         }
-
 
         public UserBLL()
         {

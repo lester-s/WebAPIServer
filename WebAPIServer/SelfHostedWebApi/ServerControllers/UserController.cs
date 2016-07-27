@@ -1,6 +1,6 @@
 ﻿using SelfHostedWebApi.BuisnessLayer;
-using SelfHostedWebApi.DataAccessLayer;
 using SelfHostedWebApi.DataAccessLayer.Database;
+using SelfHostedWebApi.DataAccessLayer.UserDAL;
 using SelfHostedWebApi.HostConfig;
 using SelfHostedWebApi.Model;
 using System.Collections.Generic;
@@ -12,7 +12,8 @@ namespace SelfHostedWebApi.ServerControllers
 {
     public class UserController : ApiController
     {
-        UserBLL bll = new UserBLL(new UserDal(new SqliteBaseDal()));
+        private UserBLL bll = new UserBLL(new UserDal(new SqliteBaseDal()));
+
         [HttpGet]
         [ActionName("ConnectUser")]
         public HttpResponseMessage ConnectUser(User userToConnect)

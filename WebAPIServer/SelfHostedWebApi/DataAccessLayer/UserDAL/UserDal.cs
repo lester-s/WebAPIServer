@@ -1,12 +1,7 @@
-﻿using SelfHostedWebApi.DataAccessLayer.User;
-using System;
-using System.Collections.Generic;
+﻿using SelfHostedWebApi.DataAccessLayer.Database;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SelfHostedWebApi.DataAccessLayer.Database;
 
-namespace SelfHostedWebApi.DataAccessLayer
+namespace SelfHostedWebApi.DataAccessLayer.UserDAL
 {
     public class UserDal : IUserDal
     {
