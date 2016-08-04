@@ -25,6 +25,6 @@ namespace SelfHostedWebApi.DataAccessLayer.Database
 
         int ExecuteScalar(string query);
 
-        List<T> ExecuteTableRead<T>(string query) where T : BaseModel, new();
+        List<T> ExecuteTableRead<T>(SqliteCommandData query) where T : BaseModel, new();
     }
 }

@@ -19,3 +19,4 @@ D:\Projects\WebAPIServer\WebAPIServer\SelfHostedWebApi\bin\Debug\System.Data.SQL
 D:\Projects\WebAPIServer\WebAPIServer\SelfHostedWebApi\bin\Debug\EntityFramework.xml
 D:\Projects\WebAPIServer\WebAPIServer\SelfHostedWebApi\bin\Debug\EntityFramework.SqlServer.xml
 D:\Projects\WebAPIServer\WebAPIServer\SelfHostedWebApi\bin\Debug\System.Data.SQLite.xml
+D:\Projects\WebAPIServer\WebAPIServer\SelfHostedWebApi\obj\Debug\SelfHostedWebApi.csprojResolveAssemblyReference.cache

@@ -105,6 +105,7 @@
     <Compile Include="BuisnessLayer\UserBLL.cs" />
     <Compile Include="DataAccessLayer\Database\SqliteBaseDal.cs" />
     <Compile Include="DataAccessLayer\Database\IDatabaseHandler.cs" />
+    <Compile Include="DataAccessLayer\Database\SqliteCommandData.cs" />
     <Compile Include="DataAccessLayer\UserDAL\UserDal.cs" />
     <Compile Include="DataAccessLayer\UserDAL\IUserDal.cs" />
     <Compile Include="HostConfig\AuthenticationMessageHandler.cs" />
