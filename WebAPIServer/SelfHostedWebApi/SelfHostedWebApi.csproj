@@ -12,7 +12,10 @@
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <PublishUrl>publish\</PublishUrl>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <PublishUrl>D:\Projects\WebAPIServer\WebAPIServer\SelfHostedWebApi\Publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
     <UpdateEnabled>false</UpdateEnabled>
@@ -22,13 +25,11 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationRevision>1</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -51,6 +52,18 @@
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>SelfHostedWebApi.Program</StartupObject>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>8F9E0E218E7F71BCDFAF76266622633918520EBA</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>SelfHostedWebApi_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>true</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>true</SignManifests>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
@@ -101,19 +114,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BuisnessLayer\AppHandler.cs" />
-    <Compile Include="BuisnessLayer\MyHelper.cs" />
+    <Compile Include="Helpers\MyHelper.cs" />
     <Compile Include="BuisnessLayer\UserBLL.cs" />
     <Compile Include="DataAccessLayer\Database\SqliteBaseDal.cs" />
     <Compile Include="DataAccessLayer\Database\IDatabaseHandler.cs" />
     <Compile Include="DataAccessLayer\Database\SqliteCommandData.cs" />
     <Compile Include="DataAccessLayer\UserDAL\UserDal.cs" />
     <Compile Include="DataAccessLayer\UserDAL\IUserDal.cs" />
-    <Compile Include="HostConfig\AuthenticationMessageHandler.cs" />
-    <Compile Include="HostConfig\BasicAuthenticationIdentity.cs" />
+    <Compile Include="HostConfig\Auth\AuthenticationMessageHandler.cs" />
+    <Compile Include="HostConfig\Auth\BasicAuthenticationIdentity.cs" />
     <Compile Include="HostConfig\ExceptionsHandling\CustomExceptionHandler.cs" />
-    <Compile Include="HostConfig\ServerAuthorizationFilter.cs" />
+    <Compile Include="HostConfig\Auth\ServerAuthorizationFilter.cs" />
     <Compile Include="HostConfig\ServerStaticValues.cs" />
-    <Compile Include="HostConfig\Settings\FileToJsonReader.cs" />
+    <Compile Include="Helpers\FileToJsonHelper.cs" />
     <Compile Include="HostConfig\Settings\ServerSettings.cs" />
     <Compile Include="Model\BaseModel.cs" />
     <Compile Include="Program.cs" />
@@ -124,6 +137,7 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+    <None Include="SelfHostedWebApi_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">

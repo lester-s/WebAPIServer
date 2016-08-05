@@ -1,4 +1,5 @@
 ﻿using SelfHostedWebApi.BuisnessLayer;
+using SelfHostedWebApi.Helpers;
 using System;
 using System.Linq;
 using System.Net;
@@ -88,7 +89,7 @@ namespace SelfHostedWebApi.HostConfig
 
             var userExist = AppHandler.Instance.UserExist(tokens[0], tokens[1]);
 
-            return userExist != null ? MyHelper.AuthorizationHelper.GetRoleFromString(userExist.Role) : ServerStaticValues.AppRole.nothing;
+            return userExist != null ? AuthorizationHelper.GetRoleFromString(userExist.Role) : ServerStaticValues.AppRole.nothing;
         }
 
         private void Challenge(HttpRequestMessage request, HttpResponseMessage response)

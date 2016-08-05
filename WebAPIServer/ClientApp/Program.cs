@@ -108,12 +108,9 @@ namespace ClientApp
                 Console.WriteLine(error);
                 return;
             }
-            var result = resp.Content.ReadAsAsync<List<User>>().Result;
+            var result = resp.Content.ReadAsAsync<User>().Result;
 
-            foreach (var user in result)
-            {
-                Console.WriteLine($"utilisateur {user.Pseudo} est agé de x");
-            }
+            Console.WriteLine($"utilisateur {result.Pseudo} est agé de x");
         }
 
         private static async void DeleteUser()

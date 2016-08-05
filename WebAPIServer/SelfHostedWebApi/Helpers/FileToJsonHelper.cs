@@ -2,13 +2,13 @@
 using System;
 using System.IO;
 
-namespace SelfHostedWebApi.HostConfig.Settings
+namespace SelfHostedWebApi.Helpers
 {
     public class FileToJsonHelper
     {
         public static T ReadJsonFile<T>(string fileName)
         {
-            return ReadJsonFile<T>(AppDomain.CurrentDomain.BaseDirectory, fileName);
+            return ReadJsonFile<T>(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\SelfHostedServer", fileName);
         }
 
         public static T ReadJsonFile<T>(string path, string fileName)
