@@ -21,9 +21,9 @@ namespace SelfHostedWebApi.DataAccessLayer.Database
 
         #endregion sync CRUD
 
-        int ExecuteNonQuery(string query);
+        int ExecuteNonQuery(SqliteCommandData query);
 
-        int ExecuteScalar(string query);
+        int ExecuteScalar(SqliteCommandData query);
 
         List<T> ExecuteTableRead<T>(SqliteCommandData query) where T : BaseModel, new();
     }

@@ -4,7 +4,6 @@ using SelfHostedWebApi.Model;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.Common;
 using System.Data.SQLite;
 using System.Text;
 
@@ -23,8 +22,8 @@ namespace SelfHostedWebApi.DataAccessLayer.Database
 
         public T Create<T>(T newItem) where T : BaseModel, new()
         {
-            string query = BuildCreateCommand<T>(newItem);
-            var id = this.ExecuteScalar(query);
+            var queryData = BuildCreateCommand<T>(newItem);
+            var id = this.ExecuteScalar(queryData);
             newItem.Id = id;
             return newItem;
         }
@@ -36,8 +35,8 @@ namespace SelfHostedWebApi.DataAccessLayer.Database
 
         public bool DeleteById<T>(int id) where T : BaseModel, new()
         {
-            string query = BuildDeleteByIdQuery<T>(id);
-            return ExecuteNonQuery(query) == 1;
+            var queryData = BuildDeleteByIdQuery<T>(id);
+            return ExecuteNonQuery(queryData) == 1;
         }
 
         public List<T> Read<T>() where T : BaseModel, new()
@@ -54,17 +53,19 @@ namespace SelfHostedWebApi.DataAccessLayer.Database
 
         public bool Update<T>(T updatedItem) where T : BaseModel, new()
         {
-            string query = BuildUpdateCommand<T>(updatedItem);
-            return ExecuteNonQuery(query) == 1;
+            var queryData = BuildUpdateCommand<T>(updatedItem);
+            return ExecuteNonQuery(queryData) == 1;
         }
 
-        private string BuildUpdateCommand<T>(T updatedItem) where T : BaseModel, new()
+        private SqliteCommandData BuildUpdateCommand<T>(T updatedItem) where T : BaseModel, new()
         {
             if (updatedItem == null || updatedItem.Id <= 0)
             {
                 throw new ArgumentException(nameof(updatedItem), "the item to update is wrong.");
             }
 
+            var result = new SqliteCommandData();
+            result.Parameters = new List<SQLiteParameter>();
             var tableName = typeof(T).Name.ToUpper();
             var properties = typeof(T).GetProperties();
             StringBuilder stringBuilder = new StringBuilder();
@@ -72,45 +73,35 @@ namespace SelfHostedWebApi.DataAccessLayer.Database
             var i = 0;
             foreach (var property in properties)
             {
+                if (property.Name.ToUpper() == ServerStaticValues.IdName)
+                {
+                    continue;
+                }
+
                 stringBuilder.Append(property.Name.ToUpper() + " = ");
 
-                if (property.PropertyType == typeof(string))
-                {
-                    stringBuilder.Append("'" + property.GetValue(updatedItem) + "'");
-                }
-                else
-                {
-                    stringBuilder.Append(property.GetValue(updatedItem));
-                }
+                stringBuilder.Append($"@{property.Name}");
 
-                if (i < properties.Length - 1)
+                result.Parameters.Add(new SQLiteParameter(property.Name, property.GetValue(updatedItem)));
+
+                if (i < properties.Length - 2)
                 {
                     stringBuilder.Append(", ");
                 }
 
                 i++;
             }
-            var query = $"UPDATE {tableName} SET {stringBuilder.ToString()} WHERE {ServerStaticValues.IdName} = {updatedItem.Id};";
-            return query;
+            result.Query = $"UPDATE {tableName} SET {stringBuilder.ToString()} WHERE {ServerStaticValues.IdName} = @{nameof(updatedItem.Id)};";
+            result.Parameters.Add(new SQLiteParameter(nameof(updatedItem.Id), updatedItem.Id));
+            return result;
         }
 
         #endregion Sync CRUD
 
         #region Command builders
-        
 
         private SqliteCommandData BuildReadByIdCommand<T>(int id) where T : BaseModel, new()
         {
-            //if (id <= 0)
-            //{
-            //    throw new ArgumentException(nameof(id), "Id must be > 0");
-            //}
-            //var baseQuery = BuildReadCommand<T>();
-            //baseQuery.TrimEnd(';');
-            //baseQuery += $" WHERE {ServerStaticValues.IdName} = {id};";
-            //return baseQuery;
-
-
             if (id <= 0)
             {
                 throw new ArgumentException(nameof(id), "Id must be > 0");
@@ -119,12 +110,12 @@ namespace SelfHostedWebApi.DataAccessLayer.Database
             var result = new SqliteCommandData();
             var baseBuilder = BuildReadCommand<T>();
             var baseQuery = baseBuilder.Query;
-            result.parameters = baseBuilder.parameters;
+            result.Parameters = baseBuilder.Parameters;
 
             baseQuery.TrimEnd(';');
             baseQuery += $" WHERE {ServerStaticValues.IdName} = @{nameof(id)};";
 
-            result.parameters.Add(new SQLiteParameter(nameof(id), id));
+            result.Parameters.Add(new SQLiteParameter(nameof(id), id));
             return result;
         }
 
@@ -136,33 +127,40 @@ namespace SelfHostedWebApi.DataAccessLayer.Database
             var query = $"SELECT * FROM @{nameof(tableName)};";
 
             List<SQLiteParameter> parameters = new List<SQLiteParameter>();
-            parameters.Add(new SQLiteParameter($"{nameof(tableName)}",tableName));
+            parameters.Add(new SQLiteParameter($"{nameof(tableName)}", tableName));
 
-            result.parameters = parameters;
+            result.Parameters = parameters;
             result.Query = query;
             return result;
         }
 
-        private string BuildDeleteByIdQuery<T>(int id) where T : BaseModel, new()
+        private SqliteCommandData BuildDeleteByIdQuery<T>(int id) where T : BaseModel, new()
         {
             if (id <= 0)
             {
                 throw new ArgumentException(nameof(id), "Id must be > 0");
             }
+            var result = new SqliteCommandData();
             var currentType = typeof(T);
             var tableName = currentType.Name.ToUpper();
-            string query = $"DELETE FROM {tableName} WHERE {ServerStaticValues.IdName} = {id}";
-            return query;
+            result.Query = $"DELETE FROM {tableName} WHERE {ServerStaticValues.IdName} = @{nameof(id)}";
+            result.Parameters = new List<SQLiteParameter>();
+            result.Parameters.Add(new SQLiteParameter(nameof(id), id));
+            return result;
         }
 
-        private string BuildCreateCommand<T>(T newItem) where T : BaseModel, new()
+        private SqliteCommandData BuildCreateCommand<T>(T newItem) where T : BaseModel, new()
         {
             if (newItem == null)
             {
                 throw new ArgumentNullException(nameof(newItem), "Argument needed in Sqlite database handler");
             }
 
+            var result = new SqliteCommandData();
+            result.Parameters = new List<SQLiteParameter>();
+
             StringBuilder namesBuilder = new StringBuilder();
+
             StringBuilder valuesBuilder = new StringBuilder();
 
             var tableName = newItem.GetType().Name.ToUpper();
@@ -176,16 +174,9 @@ namespace SelfHostedWebApi.DataAccessLayer.Database
 
                 if (!ServerStaticValues.IdName.Contains(currentName.ToUpper()))
                 {
-                    if (property.PropertyType == typeof(string))
-                    {
-                        namesBuilder.Append(currentName.ToUpper());
-                        valuesBuilder.Append("'" + currentValue + "'");
-                    }
-                    else
-                    {
-                        namesBuilder.Append(currentName.ToUpper());
-                        valuesBuilder.Append(currentValue);
-                    }
+                    namesBuilder.Append(currentName.ToUpper());
+                    valuesBuilder.Append($"@{currentName}");
+                    result.Parameters.Add(new SQLiteParameter(currentName, currentValue));
 
                     if (i < properties.Length - 2)
                     {
@@ -197,17 +188,17 @@ namespace SelfHostedWebApi.DataAccessLayer.Database
                 i++;
             }
 
-            var result = string.Format("INSERT INTO {0} ({1}) VALUES ({2});", tableName, namesBuilder.ToString(), valuesBuilder.ToString());
+            result.Query = string.Format("INSERT INTO {0} ({1}) VALUES ({2});", tableName, namesBuilder.ToString(), valuesBuilder.ToString());
             return result;
         }
 
         #endregion Command builders
 
-        public int ExecuteNonQuery(string query)
+        public int ExecuteNonQuery(SqliteCommandData data)
         {
-            if (string.IsNullOrWhiteSpace(query))
+            if (string.IsNullOrWhiteSpace(data.Query))
             {
-                throw new ArgumentNullException(nameof(query), "Query is missing");
+                throw new ArgumentNullException(nameof(data), "Query is missing");
             }
 
             var conn = System.Data.SQLite.Linq.SQLiteProviderFactory.Instance.CreateConnection();
@@ -216,7 +207,8 @@ namespace SelfHostedWebApi.DataAccessLayer.Database
             {
                 conn.Open();
                 var cmd = conn.CreateCommand();
-                cmd.CommandText = query;
+                cmd.CommandText = data.Query;
+                cmd.Parameters.AddRange(data.Parameters.ToArray());
                 return cmd.ExecuteNonQuery();
             }
             catch (Exception ex)
@@ -231,14 +223,14 @@ namespace SelfHostedWebApi.DataAccessLayer.Database
             return 0;
         }
 
-        public int ExecuteScalar(string query)
+        public int ExecuteScalar(SqliteCommandData queryData)
         {
-            if (string.IsNullOrWhiteSpace(query))
+            if (string.IsNullOrWhiteSpace(queryData.Query))
             {
-                throw new ArgumentNullException(nameof(query), "Query must not be null or empty");
+                throw new ArgumentNullException(nameof(queryData), "Query must not be null or empty");
             }
 
-            query += " select last_insert_rowid()";
+            queryData.Query += " select last_insert_rowid()";
             var conn = System.Data.SQLite.Linq.SQLiteProviderFactory.Instance.CreateConnection();
             conn.ConnectionString = dbConnection;
 
@@ -246,7 +238,8 @@ namespace SelfHostedWebApi.DataAccessLayer.Database
             {
                 conn.Open();
                 var cmd = conn.CreateCommand();
-                cmd.CommandText = query;
+                cmd.CommandText = queryData.Query;
+                cmd.Parameters.AddRange(queryData.Parameters.ToArray());
                 var result = cmd.ExecuteScalar();
                 return (int)result;
             }
@@ -276,7 +269,7 @@ namespace SelfHostedWebApi.DataAccessLayer.Database
                 conn.Open();
                 var cmd = conn.CreateCommand();
                 cmd.CommandText = queryData.Query;
-                cmd.Parameters.AddRange(queryData.parameters.ToArray());
+                cmd.Parameters.AddRange(queryData.Parameters.ToArray());
                 var reader = cmd.ExecuteReader();
                 DataTable dataTable = new DataTable();
                 dataTable.Load(reader);

@@ -34,11 +34,12 @@ namespace SelfHostedWebApi.DataAccessLayer.UserDAL
             SqliteCommandData data = new SqliteCommandData();
 
             data.Query = $"select * from user where PSEUDO = @{nameof(pseudo)} and PASSWORD = @{nameof(password)}";
-            data.parameters = new List<System.Data.SQLite.SQLiteParameter>();
-            data.parameters.Add(new SQLiteParameter(nameof(pseudo), pseudo));
-            data.parameters.Add(new SQLiteParameter(nameof(password), password));
+            data.Parameters = new List<System.Data.SQLite.SQLiteParameter>();
+            data.Parameters.Add(new SQLiteParameter(nameof(pseudo), pseudo));
+            data.Parameters.Add(new SQLiteParameter(nameof(password), password));
 
-            return BaseDal.ExecuteTableRead<Model.User>(data)?.ElementAt(0);
+            var user = BaseDal.ExecuteTableRead<Model.User>(data);
+            return user?.Count <= 0 ? null : user.ElementAt(0);
         }
     }
 }

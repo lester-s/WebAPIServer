@@ -38,6 +38,8 @@ namespace SelfHostedWebApi.ServerControllers
         }
 
         [HttpPost]
+        [OverrideAuthorization]
+        [ServerAuthorizationFilter(Role = ServerStaticValues.AppRole.noConnectionNeeded)]
         [ActionName("CreateUser")]
         public HttpResponseMessage CreateUser(User userToCreate)
         {

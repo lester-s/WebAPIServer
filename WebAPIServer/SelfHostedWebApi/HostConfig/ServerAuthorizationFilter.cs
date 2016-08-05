@@ -15,6 +15,11 @@ namespace SelfHostedWebApi.HostConfig
                 return true;
             }
 
+            if (Role == ServerStaticValues.AppRole.noConnectionNeeded)
+            {
+                return true;
+            }
+
             var identity = actionContext.RequestContext.Principal.Identity;
 
             if (identity != null && identity.IsAuthenticated)

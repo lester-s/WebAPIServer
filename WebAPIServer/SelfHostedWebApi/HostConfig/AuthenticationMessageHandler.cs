@@ -28,7 +28,7 @@ namespace SelfHostedWebApi.HostConfig
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
             var actionName = GetRequestActionName(request);
-            if (actionName == ServerStaticValues.MethodName_UserConnect.ToLower())
+            if (false && actionName == ServerStaticValues.MethodName_UserConnect.ToLower())
             {
                 return await base.SendAsync(request, cancellationToken);
             }

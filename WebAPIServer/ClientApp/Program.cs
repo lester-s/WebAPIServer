@@ -29,7 +29,7 @@ namespace ClientApp
 
             try
             {
-                UpdateUser();
+                CreateUser();
             }
             catch (Exception ex)
             {
@@ -101,8 +101,13 @@ namespace ClientApp
             var userToCreate = new User(userName, "s", "admin") { Id = 2 };
 
             var resp = client.PostAsJsonAsync<User>("api/user/CreateUser", userToCreate).Result;
-            resp.EnsureSuccessStatusCode();
-
+            //resp.EnsureSuccessStatusCode();
+            if (resp.StatusCode != System.Net.HttpStatusCode.OK)
+            {
+                var error = resp.Content.ReadAsStringAsync().Result;
+                Console.WriteLine(error);
+                return;
+            }
             var result = resp.Content.ReadAsAsync<List<User>>().Result;
 
             foreach (var user in result)
