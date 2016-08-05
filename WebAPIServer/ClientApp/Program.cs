@@ -101,7 +101,7 @@ namespace ClientApp
             var userToCreate = new User(userName, "s", "admin") { Id = 2 };
 
             var resp = client.PostAsJsonAsync<User>("api/user/CreateUser", userToCreate).Result;
-            //resp.EnsureSuccessStatusCode();
+
             if (resp.StatusCode != System.Net.HttpStatusCode.OK)
             {
                 var error = resp.Content.ReadAsStringAsync().Result;
