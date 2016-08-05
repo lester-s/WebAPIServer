@@ -48,8 +48,8 @@ namespace SelfHostedWebApi.DataAccessLayer.Database
 
         public T ReadById<T>(int id) where T : BaseModel, new()
         {
-            string query = BuildReadByIdCommand<T>(id);
-            return ExecuteTableRead<T>(query)[0];
+            var command = BuildReadByIdCommand<T>(id);
+            return ExecuteTableRead<T>(command)[0];
         }
 
         public bool Update<T>(T updatedItem) where T : BaseModel, new()
