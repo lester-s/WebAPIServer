@@ -23,3 +23,4 @@ D:\Projects\WebAPIServer\WebAPIServer\SelfHostedWebApi\bin\Debug\SelfHostedWebAp
 D:\Projects\WebAPIServer\WebAPIServer\SelfHostedWebApi\bin\Debug\SelfHostedWebApi.application
 D:\Projects\WebAPIServer\WebAPIServer\SelfHostedWebApi\obj\Debug\SelfHostedWebApi.exe.manifest
 D:\Projects\WebAPIServer\WebAPIServer\SelfHostedWebApi\obj\Debug\SelfHostedWebApi.application
+D:\Projects\WebAPIServer\WebAPIServer\SelfHostedWebApi\obj\Debug\SelfHostedWebApi.csprojResolveAssemblyReference.cache
