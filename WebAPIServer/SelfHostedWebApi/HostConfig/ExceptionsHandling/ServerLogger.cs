@@ -37,6 +37,9 @@ namespace SelfHostedWebApi.HostConfig.ExceptionsHandling
 
             // Step 5. Activate the configuration
             LogManager.Configuration = config;
+
+            var logger = LogManager.GetCurrentClassLogger();
+            logger.Debug("Logger setting finished");
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using SelfHostedWebApi.BuisnessLayer;
+﻿using NLog;
+using SelfHostedWebApi.BuisnessLayer;
 using System.Web.Http;
 using System.Web.Http.Controllers;
 
@@ -6,10 +7,12 @@ namespace SelfHostedWebApi.HostConfig
 {
     public class ServerAuthorizationFilter : AuthorizeAttribute
     {
+        private static Logger logger = LogManager.GetCurrentClassLogger();
         public ServerStaticValues.AppRole Role { get; set; }
 
         protected override bool IsAuthorized(HttpActionContext actionContext)
         {
+            logger.Debug("start authorizing");
             if (!AppHandler.Instance.Settings.IsAuthActivated)
             {
                 return true;
@@ -21,7 +24,7 @@ namespace SelfHostedWebApi.HostConfig
             }
 
             var identity = actionContext.RequestContext.Principal.Identity;
-
+            logger.Debug($"Authorizing identity: {identity.Name}");
             if (identity != null && identity.IsAuthenticated)
             {
                 var basicAuth = identity as BasicAuthenticationIdentity;
@@ -35,6 +38,8 @@ namespace SelfHostedWebApi.HostConfig
                     return true;
                 }
             }
+
+            logger.Debug($"Fail to authorize");
             return false;
         }
     }

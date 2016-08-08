@@ -1,4 +1,5 @@
-﻿using SelfHostedWebApi.DataAccessLayer.Database;
+﻿using NLog;
+using SelfHostedWebApi.DataAccessLayer.Database;
 using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
@@ -8,6 +9,8 @@ namespace SelfHostedWebApi.DataAccessLayer.UserDAL
 {
     public class UserDal : IUserDal
     {
+        private static Logger logger = LogManager.GetCurrentClassLogger();
+
         public UserDal()
         {
             BaseDal = new SqliteBaseDal();

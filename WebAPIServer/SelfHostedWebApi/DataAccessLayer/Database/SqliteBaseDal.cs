@@ -210,23 +210,32 @@ namespace SelfHostedWebApi.DataAccessLayer.Database
 
         public int ExecuteNonQuery(SqliteCommandData data)
         {
+            logger.Debug("start execute non query");
             if (string.IsNullOrWhiteSpace(data.Query))
             {
                 throw new ArgumentNullException(nameof(data), "Query is missing");
             }
 
+            logger.Debug("Create connection");
+
             var conn = System.Data.SQLite.Linq.SQLiteProviderFactory.Instance.CreateConnection();
             conn.ConnectionString = dbConnection;
             try
             {
+                logger.Debug("opening connection");
+
                 conn.Open();
                 var cmd = conn.CreateCommand();
                 cmd.CommandText = data.Query;
                 cmd.Parameters.AddRange(data.Parameters.ToArray());
+                logger.Debug("Executing non query");
+
                 return cmd.ExecuteNonQuery();
             }
             catch (Exception ex)
             {
+                logger.Debug("error while executing non query");
+
                 Console.WriteLine(ex.Message);
             }
             finally
@@ -271,20 +280,31 @@ namespace SelfHostedWebApi.DataAccessLayer.Database
 
         public List<T> ExecuteTableRead<T>(SqliteCommandData queryData) where T : BaseModel, new()
         {
+            logger.Debug("start execute table read");
+
             if (string.IsNullOrWhiteSpace(queryData.Query))
             {
                 throw new ArgumentNullException(nameof(queryData), "Query must not be null or empty");
             }
 
+            logger.Debug("create connection");
+
             var conn = System.Data.SQLite.Linq.SQLiteProviderFactory.Instance.CreateConnection();
             conn.ConnectionString = dbConnection;
             try
             {
+                logger.Debug("opening connection");
+
                 conn.Open();
                 var cmd = conn.CreateCommand();
                 cmd.CommandText = queryData.Query;
                 cmd.Parameters.AddRange(queryData.Parameters.ToArray());
+                logger.Debug("executing table read");
+
                 var reader = cmd.ExecuteReader();
+
+                logger.Debug("Parsing result");
+
                 DataTable dataTable = new DataTable();
                 dataTable.Load(reader);
                 reader.Close();

@@ -14,7 +14,7 @@ namespace SelfHostedWebApi.HostConfig.ExceptionsHandling
 
         public override void Handle(ExceptionHandlerContext context)
         {
-            logger.Error("exception: ", context.Exception.Message);
+            logger.Error("exception handler: ", context.Exception.Message);
             logger.Error("inner exception: ", context.Exception.InnerException.Message);
             context.Result = new TextPlainErrorResult
             {
