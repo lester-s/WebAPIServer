@@ -14,6 +14,8 @@ namespace SelfHostedWebApi
         {
             var config = new HttpSelfHostConfiguration("http://localhost:8080");
 
+            ServerLogger.SetDefaultConfiguration();
+
             config.Routes.MapHttpRoute(
                 "API Default", "api/{controller}/{action}/{id}",
                 new { id = RouteParameter.Optional },

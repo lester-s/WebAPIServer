@@ -1,4 +1,5 @@
-﻿using SelfHostedWebApi.BuisnessLayer;
+﻿using NLog;
+using SelfHostedWebApi.BuisnessLayer;
 using SelfHostedWebApi.HostConfig;
 using SelfHostedWebApi.Model;
 using System;
@@ -11,6 +12,8 @@ namespace SelfHostedWebApi.DataAccessLayer.Database
 {
     public class SqliteBaseDal : IDatabaseHandler
     {
+        private static Logger logger = LogManager.GetCurrentClassLogger();
+
         private string dbConnection;
 
         public SqliteBaseDal()
@@ -116,6 +119,9 @@ namespace SelfHostedWebApi.DataAccessLayer.Database
             baseQuery += $" WHERE {ServerStaticValues.IdName} = @{nameof(id)};";
 
             result.Parameters.Add(new SQLiteParameter(nameof(id), id));
+
+            logger.Debug("BuildReadByIdCommand command generated: " + result.Query);
+
             return result;
         }
 
@@ -131,6 +137,9 @@ namespace SelfHostedWebApi.DataAccessLayer.Database
 
             result.Parameters = parameters;
             result.Query = query;
+
+            logger.Debug("BuildReadCommand command generated: " + result.Query);
+
             return result;
         }
 
@@ -146,6 +155,9 @@ namespace SelfHostedWebApi.DataAccessLayer.Database
             result.Query = $"DELETE FROM {tableName} WHERE {ServerStaticValues.IdName} = @{nameof(id)}";
             result.Parameters = new List<SQLiteParameter>();
             result.Parameters.Add(new SQLiteParameter(nameof(id), id));
+
+            logger.Debug("BuildDeleteByIdQuery command generated: " + result.Query);
+
             return result;
         }
 
@@ -189,6 +201,8 @@ namespace SelfHostedWebApi.DataAccessLayer.Database
             }
 
             result.Query = string.Format("INSERT INTO {0} ({1}) VALUES ({2});", tableName, namesBuilder.ToString(), valuesBuilder.ToString());
+            logger.Debug("Create command generated: " + result.Query);
+
             return result;
         }
 

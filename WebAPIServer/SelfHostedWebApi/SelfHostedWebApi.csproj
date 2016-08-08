@@ -129,6 +129,7 @@
     <Compile Include="HostConfig\Auth\BasicAuthenticationIdentity.cs" />
     <Compile Include="HostConfig\ExceptionsHandling\CustomExceptionHandler.cs" />
     <Compile Include="HostConfig\Auth\ServerAuthorizationFilter.cs" />
+    <Compile Include="HostConfig\ExceptionsHandling\ServerLogger.cs" />
     <Compile Include="HostConfig\ServerStaticValues.cs" />
     <Compile Include="Helpers\FileToJsonHelper.cs" />
     <Compile Include="HostConfig\Settings\ServerSettings.cs" />

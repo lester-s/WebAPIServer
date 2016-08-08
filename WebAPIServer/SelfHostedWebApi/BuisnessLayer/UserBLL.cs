@@ -1,4 +1,5 @@
-﻿using SelfHostedWebApi.DataAccessLayer.UserDAL;
+﻿using NLog;
+using SelfHostedWebApi.DataAccessLayer.UserDAL;
 using SelfHostedWebApi.Model;
 using System;
 using System.Collections.Generic;
@@ -7,6 +8,8 @@ namespace SelfHostedWebApi.BuisnessLayer
 {
     public class UserBLL
     {
+        private static Logger logger = LogManager.GetCurrentClassLogger();
+
         private IUserDal dal;
 
         public IUserDal Dal

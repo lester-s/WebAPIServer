@@ -17,3 +17,5 @@ D:\Projects\WebAPIServer\WebAPIServer\ClientApp\obj\Debug\ClientApp.pdb
 D:\Projects\WebAPIServer\WebAPIServer\ClientApp\bin\Debug\System.Data.SQLite.Linq.dll
 D:\Projects\WebAPIServer\WebAPIServer\ClientApp\bin\Debug\System.Data.SQLite.dll
 D:\Projects\WebAPIServer\WebAPIServer\ClientApp\bin\Debug\System.Data.SQLite.xml
+D:\Projects\WebAPIServer\WebAPIServer\ClientApp\bin\Debug\NLog.dll
+D:\Projects\WebAPIServer\WebAPIServer\ClientApp\bin\Debug\NLog.xml

@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using NLog;
+using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -9,8 +10,12 @@ namespace SelfHostedWebApi.HostConfig.ExceptionsHandling
 {
     public class CustomExceptionHandler : ExceptionHandler
     {
+        private static Logger logger = LogManager.GetCurrentClassLogger();
+
         public override void Handle(ExceptionHandlerContext context)
         {
+            logger.Error("exception: ", context.Exception.Message);
+            logger.Error("inner exception: ", context.Exception.InnerException.Message);
             context.Result = new TextPlainErrorResult
             {
                 Request = context.ExceptionContext.Request,
